@@ -1,1 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+(function(){
+  var saved = localStorage.getItem('theme');
+  var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+})();
+</script>
+<title>Chibuike Henry — Developer</title>
+<meta name="description" content="Chibuike Henry — iOS, web and backend developer in Vancouver, BC.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TOKENS — cool paper, deep ink, one teal accent.
+   ============================================================ */
+:root{
+  --paper:   #ffffff;
+  --card:    #ffffff;
+  --rule:    #e2e8ed;
+  --rule-hi: #c3cfda;
+  --text:    #101a28;
+  --muted:   #55677d;
+  --dim:     #8b9aab;
+  --teal:    #0f7c8c;
+  --violet:  #5b3fa8;
+  --amber:   #a9671c;
 
+  --shell: min(1080px, 100% - 3rem);
+  --col:   min(58ch, 100%);
+
+  --f-display: "Bricolage Grotesque", "Trebuchet MS", "Segoe UI", sans-serif;
+  --f-body: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --ease: cubic-bezier(.22,.61,.36,1);
+  --lift: 0 1px 2px rgba(16,26,40,.04), 0 14px 34px -16px rgba(16,26,40,.20);
+
+  --nav-bg:   rgba(241,244,246,.78);
+  --chip-bg:  rgba(255,255,255,.7);
+  --card-alt: #fbfcfd;
+}
+
+html[data-theme="dark"]{
+  --paper:   #12161c;
+  --card:    #1a1f27;
+  --rule:    #2a313c;
+  --rule-hi: #3a4451;
+  --text:    #eef2f6;
+  --muted:   #9aa7b8;
+  --dim:     #6b7684;
+  --teal:    #2fb8c9;
+  --violet:  #9a82e0;
+  --amber:   #d6912f;
+  --lift: 0 1px 2px rgba(0,0,0,.24), 0 14px 34px -16px rgba(0,0,0,.55);
+  --nav-bg:   rgba(18,22,28,.78);
+  --chip-bg:  #1f2530;
+  --card-alt: #161b22;
+}
+html{ transition:background-color .3s var(--ease); }
+body{ transition:background-color .3s var(--ease), color .3s var(--ease); }
+
+*,*::before,*::after{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--text);
+  font-family:var(--f-body);
+  font-size:clamp(14px,.5vw + 12.8px,16px);
+  line-height:1.48;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+body::before{
+  content:"";
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(120vw 70vh at 80% -12%, rgba(15,124,140,.04), transparent 55%),
+    radial-gradient(90vw 60vh at 4% 44%, rgba(91,63,168,.03), transparent 52%);
+}
+
+img{ max-width:100%; display:block; }
+a{ color:inherit; }
+:focus-visible{ outline:2px solid var(--teal); outline-offset:3px; border-radius:2px; }
+
+/* ============================================================
+   TYPE
+   ============================================================ */
+h1,h2,h3{ font-family:var(--f-display); font-weight:500; margin:0; }
+h1{ font-size:clamp(2.1rem,6.2vw,4.35rem); line-height:1.02; letter-spacing:-.035em; }
+h2{ font-size:clamp(1.5rem,3.1vw,2.1rem); line-height:1.12; letter-spacing:-.025em; }
+h3{ font-size:1.06rem; line-height:1.3; letter-spacing:-.012em; }
+p{ margin:0 0 1em; }
+p:last-child{ margin-bottom:0; }
+.lede{ font-size:clamp(1rem,1.35vw,1.14rem); color:var(--muted); max-width:48ch; }
+
+/* ============================================================
+   SHELL + SECTIONS
+   ============================================================ */
+.shell{ width:var(--shell); margin-inline:auto; position:relative; z-index:1; }
+section{ position:relative; padding-block:clamp(.85rem,1.6vh,1.25rem); }
+
+.head{
+  display:flex; align-items:baseline; gap:1rem;
+  padding-bottom:.5rem; margin-bottom:.75rem;
+  border-bottom:1px solid var(--rule);
+}
+.head h2{ flex:1 1 auto; }
+.head .count{ font-size:.82rem; color:var(--dim); font-variant-numeric:tabular-nums; }
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{
+  position:fixed; inset:0 0 auto 0; z-index:50;
+  display:flex; align-items:center; gap:1.25rem;
+  padding:.55rem max(1.5rem,calc((100vw - var(--shell))/2));
+  background:var(--nav-bg);
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid transparent;
+  transition:border-color .4s var(--ease), transform .45s var(--ease);
+}
+.nav.lifted{ border-bottom-color:var(--rule); }
+.nav.hide{ transform:translateY(-105%); }
+
+.mark{
+  font-family:var(--f-display); font-weight:700; font-size:1rem;
+  letter-spacing:-.04em; text-decoration:none; margin-right:auto;
+  display:inline-flex; align-items:center; gap:.5rem;
+}
+.mark span{ width:7px; height:7px; border-radius:50%; background:var(--teal); }
+
+.nav ol{ display:flex; gap:1.5rem; list-style:none; margin:0; padding:0; font-size:.86rem; }
+.nav a{ text-decoration:none; color:var(--muted); transition:color .25s var(--ease); padding-block:.25rem; }
+.nav a:hover, .nav a[aria-current="true"]{ color:var(--text); }
+
+.theme-toggle{
+  display:grid; place-items:center; margin-left:.5rem;
+  width:2rem; height:2rem; padding:0; border-radius:999px;
+  border:1px solid var(--rule); background:var(--card); color:var(--muted);
+  cursor:pointer; transition:color .25s var(--ease), border-color .25s var(--ease);
+}
+.theme-toggle:hover{ color:var(--teal); border-color:var(--rule-hi); }
+.theme-toggle svg{ width:16px; height:16px; }
+.theme-toggle .icon-moon{ display:none; }
+html[data-theme="dark"] .theme-toggle .icon-sun{ display:none; }
+html[data-theme="dark"] .theme-toggle .icon-moon{ display:block; }
+
+.progress{
+  position:fixed; top:0; left:0; z-index:60; height:2px; width:100%;
+  transform:scaleX(0); transform-origin:0 50%;
+  background:linear-gradient(90deg,var(--teal),var(--violet));
+}
+@media (max-width:640px){ .nav ol{ display:none; } }
+
+/* ============================================================
+   HERO (typographic styles for the intro copy column)
+   ============================================================ */
+#about{ padding-top:4rem; }
+
+.tag{ display:inline-flex; align-items:center; gap:.6rem; font-size:.8rem; color:var(--muted); margin-bottom:.85rem; }
+.tag i{
+  width:6px; height:6px; border-radius:50%; background:var(--amber);
+  box-shadow:0 0 0 0 rgba(169,103,28,.45);
+  animation:pulse 2.6s var(--ease) infinite;
+}
+@keyframes pulse{
+  70%{ box-shadow:0 0 0 9px rgba(169,103,28,0); }
+  100%{ box-shadow:0 0 0 0 rgba(169,103,28,0); }
+}
+
+.hero h1{ max-width:15ch; font-size:clamp(1.7rem,4vw,2.75rem); }
+.hero h1 em{
+  font-style:normal;
+  background:linear-gradient(100deg,var(--teal),var(--violet) 75%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.hero .lede{ margin-top:.55rem; }
+.hero p{ margin-bottom:.4em; }
+
+.meta{ display:flex; flex-wrap:wrap; gap:.35rem; margin-top:.65rem; list-style:none; padding:0; }
+.meta li{
+  font-size:.75rem; color:var(--muted);
+  border:1px solid var(--rule); border-radius:999px;
+  padding:.22rem .6rem; background:var(--chip-bg);
+}
+
+.hero-rail{
+  display:flex; flex-wrap:wrap; gap:.5rem 2rem;
+  align-items:baseline; justify-content:flex-start;
+  margin-top:.75rem; padding-top:.55rem;
+  border-top:1px solid var(--rule);
+  font-size:.83rem; color:var(--muted);
+}
+.hero-rail .now{ margin:0; }
+.hero-rail .now a{
+  color:var(--text); text-decoration:none;
+  border-bottom:1px solid var(--rule-hi);
+  transition:color .25s var(--ease), border-color .25s var(--ease);
+}
+.hero-rail .now a:hover{ color:var(--teal); border-bottom-color:var(--teal); }
+.quick{ display:flex; gap:1.4rem; list-style:none; margin:0; padding:0; }
+.quick a{
+  text-decoration:none; color:var(--muted);
+  border-bottom:1px solid transparent;
+  transition:color .25s var(--ease), border-color .25s var(--ease);
+}
+.quick a:hover{ color:var(--amber); border-bottom-color:var(--amber); }
+
+/* ============================================================
+   ABOUT — portrait floating above a live point-wave
+   ============================================================ */
+.about-grid{ display:grid; gap:.65rem; grid-template-columns:1fr 1fr; align-items:start; }
+.about-grid > .hero{ grid-column:1 / -1; }
+@media (min-width:860px){
+  .about-grid{ gap:clamp(.85rem,2vw,1.25rem); grid-template-columns:repeat(4, 1fr); }
+  .about-grid > .hero{ grid-column:auto; }
+}
+.about-copy p{ max-width:var(--col); }
+
+/* --- PHOTO --------------------------------------------------
+   Save your picture beside this file as  photo.jpg
+   (or change the src on the <img> below).
+   ------------------------------------------------------------ */
+.portrait{
+  position:relative; perspective:900px;
+  aspect-ratio:4/5; max-width:70%; margin-inline:auto;
+  border-radius:16px; overflow:hidden;
+  border:1px solid var(--rule); background:var(--card);
+  box-shadow:var(--lift);
+}
+.portrait .plate{
+  position:absolute; inset:9%;
+  transform-style:preserve-3d;
+  transition:transform .1s linear;
+}
+.portrait img{
+  width:100%; height:100%; object-fit:cover;
+  border-radius:10px; display:none;
+  box-shadow:0 18px 40px -18px rgba(16,26,40,.45);
+  transform:translateZ(46px);
+}
+.portrait.has-photo img{ display:block; }
+.portrait.has-photo .drop{ display:none; }
+.drop{
+  position:absolute; inset:0; display:grid; place-items:center;
+  border:1px dashed var(--rule-hi); border-radius:10px;
+  background:var(--chip-bg);
+  transform:translateZ(46px);
+  font-size:.84rem; color:var(--dim); text-align:center; padding:1rem;
+}
+.drop code{ font-size:.82rem; color:var(--teal); }
+
+.facts{ list-style:none; margin:.6rem 0 0; padding:0; border-top:1px solid var(--rule); max-width:var(--col); }
+.facts li{
+  display:flex; gap:1.2rem; align-items:baseline;
+  padding:.28rem 0; border-bottom:1px solid var(--rule); font-size:.8rem;
+}
+.facts b{ flex:0 0 6.5rem; color:var(--dim); font-weight:400; font-size:.8rem; }
+
+/* ============================================================
+   EXPERIENCE — embedded in the About column
+   ============================================================ */
+.head-mini{ margin:0 0 .5rem; padding-bottom:.35rem; border-bottom:1px solid var(--rule); }
+.head-mini h2{ font-size:1.05rem; }
+.role{
+  padding:.4rem 0; border-bottom:1px solid var(--rule);
+  transition:border-color .3s var(--ease);
+}
+.role:first-child{ border-top:1px solid var(--rule); }
+.role:hover{ border-bottom-color:var(--rule-hi); }
+.role h3{ font-size:.94rem; }
+.role .when{ font-size:.76rem; color:var(--dim); font-variant-numeric:tabular-nums; }
+.role .org{ font-size:.82rem; color:var(--muted); margin:.1rem 0 .1rem; }
+.role .kind{
+  font-size:.7rem; color:var(--dim); display:inline-block;
+  border:1px solid var(--rule); border-radius:999px;
+  padding:.14rem .55rem; margin-top:.35rem;
+}
+
+/* ============================================================
+   PROJECTS
+   ============================================================ */
+.projects{
+  position:relative; width:100%; max-width:24rem; margin-inline:auto;
+}
+.card{
+  perspective:1200px; position:absolute; inset:0;
+  cursor:pointer;
+  transform-origin:50% 100%;
+  transition:transform .45s var(--ease), opacity .4s var(--ease);
+  transform:
+    translateY(calc(var(--i, 0) * .5rem))
+    translateX(calc(var(--i, 0) * .4rem))
+    scale(calc(1 - var(--i, 0) * .035))
+    rotate(calc(var(--i, 0) * 1.1deg));
+  z-index:calc(20 - var(--i, 0));
+  opacity:calc(1 - var(--i, 0) * .12);
+}
+.card:not([data-front]){ pointer-events:none; }
+.card[data-front]{
+  cursor:pointer; position:relative; inset:auto;
+}
+.stack-hint{
+  text-align:center; font-size:.8rem; color:var(--dim); margin-top:.9rem;
+}
+.stack-hint b{ color:var(--muted); font-weight:500; }
+.card-inner{
+  position:relative; transform-style:preserve-3d;
+  transition:transform .5s var(--ease);
+  min-height:12rem; border-radius:10px; box-shadow:var(--lift);
+}
+.card.flipped .card-inner{ transform:rotateY(180deg) !important; }
+
+.face{
+  position:absolute; inset:0;
+  backface-visibility:hidden; -webkit-backface-visibility:hidden;
+  border:1px solid var(--rule); border-radius:10px; padding:1rem;
+  background: var(--card);
+  display:flex; flex-direction:column; overflow:hidden;
+}
+.face.back{ transform:rotateY(180deg); background:var(--card-alt); overflow-y:auto; }
+.card-inner > .face:first-child{ position:relative; }
+
+.face .top{ display:flex; align-items:flex-start; justify-content:space-between; gap:.6rem; margin-bottom:.45rem; }
+.face .state{
+  font-size:.68rem; color:var(--teal);
+  border:1px solid rgba(15,124,140,.3); border-radius:999px;
+  padding:.14rem .5rem; white-space:nowrap; transform:translateZ(28px);
+}
+.face h3{ transform:translateZ(34px); font-size:1.05rem; }
+.face p{ font-size:.86rem; color:var(--muted); max-width:50ch; transform:translateZ(18px); }
+.face .impact{ font-size:.8rem; color:var(--text); transform:translateZ(20px); }
+.face .impact b{ color:var(--teal); font-weight:500; }
+.face .tech{
+  display:flex; flex-wrap:wrap; gap:.34rem;
+  list-style:none; margin:auto 0 0; padding:.7rem 0 0; transform:translateZ(12px);
+}
+.face .tech li{ font-size:.72rem; color:var(--dim); border:1px solid var(--rule); border-radius:5px; padding:.12rem .44rem; }
+
+.actions{ display:flex; flex-wrap:wrap; align-items:center; gap:.7rem; margin-top:.4rem; transform:translateZ(26px); }
+.actions a{
+  font-size:.78rem; color:var(--teal); text-decoration:none;
+  border-bottom:1px solid rgba(15,124,140,.32);
+  transition:border-color .25s var(--ease);
+}
+.actions a:hover{ border-bottom-color:var(--teal); }
+.turn{
+  background:none; border:0; padding:0; margin:0;
+  color:var(--amber); font:inherit; font-size:.78rem; cursor:pointer;
+  border-bottom:1px solid rgba(169,103,28,.35);
+  transition:border-color .25s var(--ease);
+}
+.turn:hover{ border-bottom-color:var(--amber); }
+.face.back ul{ margin:.15rem 0 0; padding-left:.9rem; font-size:.72rem; color:var(--muted); }
+.face.back li{ margin-bottom:.22rem; }
+
+@media (max-width:859.98px){
+  .portrait{ max-width:85%; margin-inline:0; }
+  .projects-col{ grid-column:1 / -1; }
+  #projectStack{
+    max-width:none; height:auto !important;
+    display:grid; grid-template-columns:1fr 1fr; gap:.5rem;
+  }
+  #projectStack .card{
+    position:static; transform:none !important; opacity:1 !important;
+    z-index:auto; pointer-events:auto;
+  }
+  #projectStack .card-inner{ min-height:9rem; }
+  #projectStack .face{ padding:.6rem; }
+  #projectStack .face h3{ font-size:.84rem; }
+  #projectStack .face p{ font-size:.7rem; }
+  #projectStack .face .impact{ font-size:.66rem; }
+  #projectStack .face .tech{ gap:.22rem; padding-top:.4rem; }
+  #projectStack .face .tech li{ font-size:.58rem; padding:.06rem .3rem; }
+  #projectStack .actions{ gap:.4rem; margin-top:.3rem; }
+  #projectStack .actions a, #projectStack .turn{ font-size:.66rem; }
+  .stack-hint{ display:none; }
+}
+
+footer{
+  border-top:1px solid var(--rule); padding:.75rem 0 1.2rem;
+  font-size:.82rem; color:var(--dim);
+  display:flex; flex-wrap:wrap; gap:.6rem 1.5rem; justify-content:space-between;
+}
+
+/* ============================================================
+   REVEAL
+   ============================================================ */
+.rise{
+  opacity:0; transform:translateY(24px) rotateX(9deg) translateZ(-40px);
+  transform-origin:50% 100%;
+  transition:opacity .8s var(--ease), transform .9s var(--ease);
+}
+.rise.in{ opacity:1; transform:none; }
+
+@media (prefers-reduced-motion:reduce){
+  html{ scroll-behavior:auto; }
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+  }
+  .rise{ opacity:1; transform:none; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<nav class="nav" id="nav" aria-label="Sections">
+  <a class="mark" href="#top"><span aria-hidden="true"></span>Chibuike Henry</a>
+  <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+    </svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"></path>
+    </svg>
+  </button>
+</nav>
+
+<main id="top">
+
+<!-- ============ INTRO (hero + about, one row) ============ -->
+<section id="about">
+  <div class="shell">
+    <div class="about-grid">
+      <div class="hero about-copy rise">
+        <p class="tag"><i aria-hidden="true"></i>Vancouver, BC · open to work</p>
+        <h1>Software engineer with <em>5+ years</em> of experience.</h1>
+        <p class="lede">
+          I build iOS, web and backend systems, and manage the developers and teams who build them with me.
+        </p>
+        <ul class="meta">
+          <li>SwiftUI</li><li>React</li><li>Java</li><li>Python</li>
+        </ul>
+
+        <!-- EDIT: your email and GitHub -->
+        <div class="hero-rail">
+          <p class="now"> Currently building <a href="https://studio-cfxh.onrender.com/"> Silistudio</a>.</p>
+          <ul class="quick">
+            <li><a href="mailto:chibuikeoswaldhenrychime@gmail.com">Email</a></li>
+            <li><a href="https://github.com/superdevchi">GitHub</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rise">
+        <!-- PHOTO GOES HERE: save it beside this file as photo.jpg -->
+        <div class="portrait" id="portrait">
+          <div class="plate" id="plate">
+            <img id="me" src="https://v3b.fal.media/files/b/0aac64aa/lmm2NjG-S8TT3RHzvJSzB_ba63a86fb9f2460695d6ad39a14759b7.jpg" alt="Chibuike Henry">
+            <div class="drop"></div>
+          </div>
+        </div>
+        <ul class="facts">
+          <li><b>Based in</b><span>Coquitlam, BC</span></li>
+          <li><b>Education</b><span>BSc Software Engineering, Babcock University<br>MBA Technical Management, Kwantlen Polytechnic University</span></li>
+        </ul>
+      </div>
+
+      <div class="rise">
+        <div class="head-mini" id="work">
+          <h2>Work</h2>
+        </div>
+        <div class="timeline" id="timeline">
+
+          <article class="role">
+            <p class="when">Jan 2024 — now</p>
+            <p class="org">Silistudio · Vancouver, BC</p>
+            <h3>Founder &amp; Independent Contractor</h3>
+            <span class="kind">Founder</span>
+          </article>
+
+          <article class="role">
+            <p class="when">Mar 2022 — Nov 2023</p>
+            <p class="org">Body Secret</p>
+            <h3>Web Developer</h3>
+            <span class="kind">Web</span>
+          </article>
+
+          <article class="role">
+            <p class="when">Feb 2020 — Feb 2021</p>
+            <p class="org">Sprint Hub</p>
+            <h3>iOS Developer Intern</h3>
+            <span class="kind">iOS</span>
+          </article>
+
+        </div>
+      </div>
+
+      <div class="rise projects-col">
+        <div class="head-mini" id="projects">
+          <h2>Projects</h2>
+        </div>
+        <div class="projects" id="projectStack">
+
+      <!-- ① Silistudio — featured, full width -->
+      <div class="card" data-tilt data-key="0">
+        <div class="card-inner">
+          <div class="face">
+            <div class="top"><h3>Silistudio</h3><span class="state">Shipped</span></div>
+            <p>AI creative studio that generates images and video from a prompt, with in-platform editing.
+            Ships on iOS and web over one Java backend.</p>
+            <p class="impact"><b>Impact:</b> Runs as a live product people pay to use, not a demo.</p>
+            <ul class="tech">
+              <li>SwiftUI</li><li>React</li><li>Java</li><li>Spring WebFlux</li>
+              <li>Supabase</li><li>Stripe</li>
+            </ul>
+            <div class="actions">
+              <a href="https://studio-cfxh.onrender.com/">Live site</a><a href="https://studio-cfxh.onrender.com/">iOS app</a><a href="https://github.com/superdevchi">GitHub</a>
+              <button class="turn" type="button">Details</button>
+            </div>
+          </div>
+          <div class="face back">
+            <h3>Silistudio</h3>
+            <ul>
+              <li>One API, two clients: SwiftUI on iOS and React on the web.</li>
+              <li>Spring WebFlux and R2DBC on Supabase Postgres, reactive end to end.</li>
+              <li>AI inference streamed over WebSocket, not polled.</li>
+              <li>Stripe Checkout and webhooks; in-browser video editor on canvas and WebAudio.</li>
+            </ul>
+            <div class="actions"><button class="turn" type="button">Back</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ② Body Secret — Rider delivery app -->
+      <div class="card" data-tilt data-key="1">
+        <div class="card-inner">
+          <div class="face">
+            <div class="top"><h3>Body Secret — Rider App</h3><span class="state">Shipped</span></div>
+            <p>End-to-end delivery system for a skincare brand: rider-facing mobile app,
+            real-time order dispatch, and a live dashboard for operations.</p>
+            <p class="impact"><b>Impact:</b> Replaced manual phone dispatch with live tracking the ops team uses daily.</p>
+            <ul class="tech">
+              <li>React</li><li>Java</li><li>Spring Boot</li>
+              <li>PostgreSQL</li><li>WebSockets</li>
+            </ul>
+            <div class="actions">
+              <a href="https://github.com/superdevchi">GitHub</a>
+              <button class="turn" type="button">Details</button>
+            </div>
+          </div>
+          <div class="face back">
+            <h3>Body Secret — Rider App</h3>
+            <ul>
+              <li>Rider-facing UI: accepts, tracks and completes deliveries in real time.</li>
+              <li>Operations dashboard shows live order status and inventory alongside the existing ecommerce backend.</li>
+              <li>Order-tracking built on the same Spring Boot + PostgreSQL stack as the main site.</li>
+              <li>WebSocket channel pushes status changes to the dashboard without polling.</li>
+            </ul>
+            <div class="actions"><button class="turn" type="button">Back</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ⑤ AI content pipeline -->
+      <div class="card" data-tilt data-key="2">
+        <div class="card-inner">
+          <div class="face">
+            <div class="top"><h3>AI Content Pipeline</h3><span class="state">Shipped</span></div>
+            <p>A Python pipeline that holds one fictional model's visual identity
+            across a full product catalogue, with consistent face, pose and lighting
+            at scale without a studio.</p>
+            <p class="impact"><b>Impact:</b> Gave one brand a full product catalogue without booking a studio shoot.</p>
+            <ul class="tech"><li>Python</li><li>Prompt engineering</li></ul>
+            <div class="actions">
+              <a href="https://github.com/superdevchi">GitHub</a>
+              <button class="turn" type="button">Details</button>
+            </div>
+          </div>
+          <div class="face back">
+            <h3>AI Content Pipeline</h3>
+            <ul>
+              <li>Uses image and video generation models across five endpoint families, from text-to-image through video-to-video.</li>
+              <li>Locked character block reused verbatim on every call; only the angle changes per shot.</li>
+              <li>Two-pass approach: generate a base image, then refine through an edit model for photorealism.</li>
+            </ul>
+            <div class="actions"><button class="turn" type="button">Back</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ⑥ Sentinel — macOS screen monitor -->
+      <div class="card" data-tilt data-key="3">
+        <div class="card-inner">
+          <div class="face">
+            <div class="top"><h3>Sentinel</h3><span class="state">Shipped</span></div>
+            <p>macOS app that captures your screen with consent, runs it through AI,
+            and turns it into a searchable timeline of summaries, entities and tasks.</p>
+            <p class="impact"><b>Impact:</b> Turns hours of screen time into a searchable record automatically, with no manual notes.</p>
+            <ul class="tech">
+              <li>Swift</li><li>Java</li><li>Spring</li><li>PostgreSQL</li><li>WebSockets</li>
+            </ul>
+            <div class="actions">
+              <a href="https://github.com/superdevchi/AssistantInterview">GitHub</a>
+              <button class="turn" type="button">Details</button>
+            </div>
+          </div>
+          <div class="face back">
+            <h3>Sentinel</h3>
+            <ul>
+              <li>Swift client on macOS with persistent consent indicators and on-device blurring for emails, faces and numbers.</li>
+              <li>Java Spring backend streams capture status and analysis progress over WebSocket in real time.</li>
+              <li>Multi-model AI pass (OpenAI + Grok) extracts topics, action items, quotes and linked resources.</li>
+              <li>PostgreSQL-backed timeline is searchable and filterable by date, entity or task; session-level retention with one-click delete.</li>
+            </ul>
+            <div class="actions"><button class="turn" type="button">Back</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ⑦ Local Browser Assistant -->
+      <div class="card" data-tilt data-key="4">
+        <div class="card-inner">
+          <div class="face">
+            <div class="top"><h3>Local Browser Assistant</h3><span class="state">Shipped</span></div>
+            <p>Type an instruction in plain English and Claude drives Chrome step by
+            step. Everything runs locally, and nothing goes to the cloud except the model call.</p>
+            <p class="impact"><b>Impact:</b> Automates real browser busywork locally, so no data leaves the machine.</p>
+            <ul class="tech">
+              <li>Node.js</li><li>Chrome</li><li>Claude API</li>
+            </ul>
+            <div class="actions">
+              <a href="https://github.com/superdevchi/local-browser-assistant">GitHub</a>
+              <button class="turn" type="button">Details</button>
+            </div>
+          </div>
+          <div class="face back">
+            <h3>Local Browser Assistant</h3>
+            <ul>
+              <li>Plain-English instructions get executed step by step in a real Chrome session, with approval gates before any risky action (send, delete, pay, submit).</li>
+              <li>Multiple independent chat tabs, each with its own conversation history; private/incognito mode is visually distinct.</li>
+              <li>Site allow-listing with session or permanent approval, plus support for account creation and password entry.</li>
+              <li>Treats page content as untrusted data and is built with prompt-injection awareness in mind. Fully local: browser profiles and action logs stay on your machine, using your own Anthropic API key.</li>
+            </ul>
+            <div class="actions"><button class="turn" type="button">Back</button></div>
+          </div>
+        </div>
+      </div>
+
+        </div>
+        <p class="stack-hint rise">Click the card for the next project (<b id="stackPos">1</b> / <b id="stackTotal">5</b>)</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="shell">
+  <span>Chibuike Henry — Vancouver, BC</span>
+  <span>HTML, CSS, JavaScript.</span>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var coarse  = window.matchMedia('(pointer: coarse)').matches;
+
+  /* ---------- Theme toggle ---------- */
+  function isDark() { return document.documentElement.getAttribute('data-theme') === 'dark'; }
+  var themeToggle = document.getElementById('themeToggle');
+  if (themeToggle) {
+    themeToggle.setAttribute('aria-pressed', String(isDark()));
+    themeToggle.addEventListener('click', function () {
+      var next = isDark() ? 'light' : 'dark';
+      if (next === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+      else document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', next);
+      themeToggle.setAttribute('aria-pressed', String(next === 'dark'));
+    });
+  }
+
+  /* ---------- Photo: show it only if it actually loads ---------- */
+  var me = document.getElementById('me');
+  var portrait = document.getElementById('portrait');
+  if (me && portrait) {
+    if (me.complete && me.naturalWidth > 0) portrait.classList.add('has-photo');
+    me.addEventListener('load', function () { portrait.classList.add('has-photo'); });
+    me.addEventListener('error', function () { portrait.classList.remove('has-photo'); });
+  }
+
+  /* ---------- Portrait tilts in 3D under the cursor ---------- */
+  var plate = document.getElementById('plate');
+  if (plate && !coarse && !reduced) {
+    portrait.addEventListener('pointermove', function (e) {
+      var b = portrait.getBoundingClientRect();
+      var px = (e.clientX - b.left) / b.width;
+      var py = (e.clientY - b.top) / b.height;
+      plate.style.transform =
+        'rotateY(' + ((px - 0.5) * 26).toFixed(2) + 'deg) ' +
+        'rotateX(' + ((0.5 - py) * 22).toFixed(2) + 'deg)';
+    });
+    portrait.addEventListener('pointerleave', function () { plate.style.transform = ''; });
+  }
+
+  /* ---------- Scroll progress + nav ---------- */
+  var nav = document.getElementById('nav');
+  var bar = document.getElementById('progress');
+  var lastY = 0;
+  function onScroll() {
+    var y = window.scrollY;
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.transform = 'scaleX(' + (max > 0 ? y / max : 0) + ')';
+    nav.classList.toggle('lifted', y > 24);
+    nav.classList.toggle('hide', y > 420 && y > lastY);
+    lastY = y;
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ---------- Reveal + nav highlighting ---------- */
+  var risers = document.querySelectorAll('.rise');
+  if ('IntersectionObserver' in window) {
+    var revealer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); revealer.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    risers.forEach(function (el, i) {
+      el.style.transitionDelay = (Math.min(i, 4) * 55) + 'ms';
+      revealer.observe(el);
+    });
+
+    var links = {};
+    document.querySelectorAll('.nav a[href^="#"]').forEach(function (a) {
+      links[a.getAttribute('href').slice(1)] = a;
+    });
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var a = links[e.target.id];
+        if (a) a.setAttribute('aria-current', e.isIntersecting ? 'true' : 'false');
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    document.querySelectorAll('section[id], .head-mini[id]').forEach(function (s) { spy.observe(s); });
+  } else {
+    risers.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  /* ---------- Project cards (click to flip for details) ---------- */
+  document.querySelectorAll('[data-tilt]').forEach(function (card) {
+    card.querySelectorAll('.turn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        card.classList.toggle('flipped');
+      });
+    });
+  });
+
+  /* ---------- Project stack (click to cycle) ---------- */
+  (function () {
+    var stack = document.getElementById('projectStack');
+    if (!stack) return;
+    var order = Array.from(stack.querySelectorAll(':scope > .card'));
+    var posEl = document.getElementById('stackPos');
+    var totalEl = document.getElementById('stackTotal');
+    if (totalEl) totalEl.textContent = order.length;
+
+    function layout() {
+      order.forEach(function (card, i) {
+        card.style.setProperty('--i', i);
+        if (i === 0) card.setAttribute('data-front', '');
+        else card.removeAttribute('data-front');
+      });
+      if (posEl) posEl.textContent = Number(order[0].dataset.key) + 1;
+    }
+
+    stack.addEventListener('click', function (e) {
+      if (e.target.closest('a, button')) return;
+      var card = e.target.closest('.card');
+      if (!card || card !== order[0]) return;
+      order.push(order.shift());
+      layout();
+    });
+
+    layout();
+  })();
+
+})();
+</script>
+</body>
+</html>
