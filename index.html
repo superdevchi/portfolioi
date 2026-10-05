@@ -264,7 +264,6 @@ html[data-theme="dark"] .theme-toggle .icon-moon{ display:block; }
   padding:.28rem 0; border-bottom:1px solid var(--rule); font-size:.8rem;
 }
 .facts b{ flex:0 0 6.5rem; color:var(--dim); font-weight:400; font-size:.8rem; }
-.facts li:last-child span{ line-height:1.7; }
 
 /* ============================================================
    EXPERIENCE — embedded in the About column
@@ -364,6 +363,7 @@ html[data-theme="dark"] .theme-toggle .icon-moon{ display:block; }
 .face.back li{ margin-bottom:.22rem; }
 
 @media (max-width:859.98px){
+  .portrait{ max-width:85%; margin-inline:0; }
   .projects-col{ grid-column:1 / -1; }
   #projectStack{
     max-width:none; height:auto !important;
@@ -460,7 +460,7 @@ footer{
         <div class="portrait" id="portrait">
           <div class="plate" id="plate">
             <img id="me" src="https://v3b.fal.media/files/b/0aac64aa/lmm2NjG-S8TT3RHzvJSzB_ba63a86fb9f2460695d6ad39a14759b7.jpg" alt="Chibuike Henry">
-            <div class="drop">Beautiful Image<br><code>photo.jpg</code></div>
+            <div class="drop"></div>
           </div>
         </div>
         <ul class="facts">
