@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){try{var s=localStorage.getItem('theme');var t=s||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<title>Writing — Chibuike Henry</title>
+<meta name="description" content="Notes from building and shipping iOS, web and backend systems: architecture, CI/CD, deployment and working with AI.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<nav class="nav" aria-label="Main">
+  <div class="shell">
+    <a class="brand" href="index.html"><b>Chibuike Henry</b><span class="mono">Vancouver, BC</span></a>
+    <ul>
+      <li class="opt"><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#projects">Projects</a></li>
+      <li><a href="blog.html" aria-current="page">Writing</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/></svg>
+    </button>
+  </div>
+</nav>
+
+<main>
+  <section class="page-head">
+    <div class="shell">
+      <p class="mono">Writing</p>
+      <h1>Notes from<br>the build<span class="dot">.</span></h1>
+      <p>What I learn building and shipping Silistudio and other projects: architecture, CI/CD and deployment, mistakes, and how I work with AI day to day.</p>
+      <div class="filters" id="filters" aria-label="Filter by tag"></div>
+    </div>
+  </section>
+
+  <section class="list-sec">
+    <div class="shell">
+      <ul class="posts" id="allPosts" data-posts data-base="posts/"></ul>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="shell mono">
+    <span>Chibuike Henry · Vancouver, BC · <span data-year></span></span>
+    <a href="index.html">← Back home</a>
+  </div>
+</footer>
+
+<script src="posts/posts.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>

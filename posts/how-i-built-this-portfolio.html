@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){try{var s=localStorage.getItem('theme');var t=s||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<title>How I built this portfolio — Chibuike Henry</title>
+<meta name="description" content="Plain HTML, CSS and JavaScript, built with AI on purpose, and a blog that needs no build step.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+
+<nav class="nav" aria-label="Main">
+  <div class="shell">
+    <a class="brand" href="../index.html"><b>Chibuike Henry</b><span class="mono">Vancouver, BC</span></a>
+    <ul>
+      <li class="opt"><a href="../index.html#work">Work</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../blog.html" aria-current="page">Writing</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/></svg>
+    </button>
+  </div>
+</nav>
+
+<main>
+<article class="post">
+  <div class="shell">
+    <a class="back" href="../blog.html">← All writing</a>
+
+    <header>
+      <div class="byline mono">
+        <span>Oct 29, 2026</span><span>3 min read</span>
+      </div>
+      <h1>How I built this portfolio</h1>
+      <ul class="tags"><li>Meta</li><li>AI</li><li>Web</li></ul>
+    </header>
+
+    <div class="prose">
+      <p>I built this site with AI on purpose, and I want to be straight about how. I wrote the content, made the calls on structure and design, and used Claude to write and review most of the code. That is how I work on real projects now, so it would be odd to pretend otherwise here.</p>
+
+      <h2>The constraints</h2>
+      <p>I gave myself three rules:</p>
+      <ul>
+        <li><strong>No build step.</strong> Plain HTML, CSS and JavaScript, so the site runs straight from GitHub Pages and anyone can read the source.</li>
+        <li><strong>Content visible first.</strong> Animations are an extra. If JavaScript fails, every word is still on the page.</li>
+        <li><strong>Easy to publish.</strong> Writing a post should mean adding one file, not fighting a framework.</li>
+      </ul>
+
+      <h2>How the blog works</h2>
+      <p>Each post is its own HTML file in <code>posts/</code>. A short list in <code>posts/posts.js</code> holds the title, date and tags for each one. The homepage and the blog page both read that list, so publishing is two steps: copy the template, add one line.</p>
+      <pre><code>{ slug: "how-i-built-this-portfolio",
+  title: "How I built this portfolio",
+  date: "2026-10-29", read: 3,
+  tags: ["Meta", "AI", "Web"] }</code></pre>
+
+      <h2>What I took from other portfolios</h2>
+      <p>I studied a few engineers' sites before rebuilding mine. The good ones shared three habits: one visual that actually explains their work, numbers next to claims, and projects you can open to see the problem, the work and the result. The diagram on my homepage is Silistudio's real architecture for that reason. You can drag it.</p>
+
+      <h2>What I would do differently</h2>
+      <p>I would have started with the writing section. A portfolio shows what you have built; a blog shows how you think, and that is usually what an interview is trying to find out.</p>
+    </div>
+
+    <div class="post-foot mono">
+      <a class="back" href="../blog.html">← All writing</a>
+      <a class="back" href="../index.html#contact">Questions? Get in touch →</a>
+    </div>
+  </div>
+</article>
+</main>
+
+<footer>
+  <div class="shell mono">
+    <span>Chibuike Henry · Vancouver, BC · <span data-year></span></span>
+    <a href="https://github.com/superdevchi">GitHub</a>
+  </div>
+</footer>
+
+<script src="posts.js"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){try{var s=localStorage.getItem('theme');var t=s||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<title>From push to production: Silistudio's CI/CD pipeline — Chibuike Henry</title>
+<meta name="description" content="How every change to Silistudio gets tested, built and deployed automatically, and the deploy bugs that taught me the most.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+
+<nav class="nav" aria-label="Main">
+  <div class="shell">
+    <a class="brand" href="../index.html"><b>Chibuike Henry</b><span class="mono">Vancouver, BC</span></a>
+    <ul>
+      <li class="opt"><a href="../index.html#work">Work</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../blog.html" aria-current="page">Writing</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/></svg>
+    </button>
+  </div>
+</nav>
+
+<main>
+<article class="post">
+  <div class="shell">
+    <a class="back" href="../blog.html">← All writing</a>
+
+    <header>
+      <div class="byline mono">
+        <span>Nov 2, 2026</span><span>5 min read</span>
+      </div>
+      <h1>From push to production: Silistudio's CI/CD pipeline</h1>
+      <ul class="tags"><li>DevOps</li><li>CI/CD</li><li>Silistudio</li></ul>
+    </header>
+
+    <div class="prose">
+      <p>Writing the feature is half the job. The other half is getting it to users without breaking what already works. On Silistudio I own both halves, and the pipeline is what lets one person ship several times a day without holding their breath.</p>
+
+      <h2>The pipeline at a glance</h2>
+      <ol>
+        <li><strong>Push.</strong> Every push and every pull request starts a GitHub Actions run.</li>
+        <li><strong>Test.</strong> The web app's Vitest suite runs, and the API image has to build cleanly.</li>
+        <li><strong>Build.</strong> Vite bundles the web app into <code>./dist</code>; the API is packaged as a Docker image.</li>
+        <li><strong>Deploy.</strong> Only on <code>main</code>, and only if every job passed: the API goes out as a Docker web service on Render, the web app as a Render static site.</li>
+      </ol>
+      <p>Pull requests stop after step three. That is the point: a branch can be as broken as it likes, but nothing reaches production until it is green.</p>
+
+      <h2>The workflow</h2>
+      <p>A trimmed version of the workflow file. Folder names are simplified.</p>
+      <pre><code>name: ci-cd
+on:
+  push: { branches: [main] }
+  pull_request:
+
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: web } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm, cache-dependency-path: web/package-lock.json }
+      - run: npm ci
+      - run: npx vitest run
+      - run: npm run build          # Vite → ./dist
+
+  api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t silistudio-api ./api
+
+  deploy:
+    needs: [web, api]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - run: curl -fsS -X POST "${{ secrets.RENDER_API_DEPLOY_HOOK }}"
+      - run: curl -fsS -X POST "${{ secrets.RENDER_WEB_DEPLOY_HOOK }}"</code></pre>
+      <p>The deploy hooks are secrets, so the URLs that trigger a production deploy never appear in the repository. And because <code>deploy</code> needs both other jobs, one failing test is enough to stop the release.</p>
+
+      <h2>What real deploys taught me</h2>
+
+      <h3>A broken build is CI working, not failing</h3>
+      <p>One refactor left an import pointing at <code>src/src/</code>. Locally it was masked by a cached file; in CI, on a clean machine, the build failed immediately. Annoying for five minutes, but it meant users never saw it. A clean environment on every run is the most valuable thing CI gives you.</p>
+
+      <h3>Single-page apps need a rewrite, not a redirect</h3>
+      <p>The first deploy of the web app worked until someone refreshed a page like <code>/projects</code> and got a blank screen. The static host was looking for a file that does not exist. The fix is a rule that serves <code>/index.html</code> for every path, and it has to be a <em>rewrite</em>. A redirect changes the URL and the app loses its route.</p>
+
+      <h3>Know where your build actually lands</h3>
+      <p>Vite writes to <code>./dist</code>. Older React setups wrote to <code>./build</code>, and a lot of hosting docs still assume that. Pointing the host at the wrong folder deploys nothing at all, very successfully.</p>
+
+      <h3>Middleware order is configuration, not style</h3>
+      <p>Two production bugs came down to order. Cross-origin rules have to run before the routes they protect. And Stripe's webhook route needs the raw request body to verify its signature, so it has to be registered before anything parses JSON. Both pass every local test and only fail against the real services.</p>
+
+      <h3>Long-lived connections need to survive deploys</h3>
+      <p>Silistudio streams generation results over WebSockets. A deploy, or a service waking from idle, drops every open connection. The fix lives on both sides: a health check so the platform knows when the new instance is actually ready, and clients that reconnect quietly instead of showing an error.</p>
+
+      <h2>What is next</h2>
+      <ul>
+        <li><strong>Preview environments.</strong> A temporary deploy for every pull request, so changes can be clicked through before they merge.</li>
+        <li><strong>A smoke test after deploy.</strong> Hit a few real endpoints once the release is live, and roll back automatically if they fail.</li>
+        <li><strong>The iOS app in the same pipeline.</strong> Build and test on every push, with TestFlight uploads from <code>main</code>.</li>
+      </ul>
+
+      <blockquote>Full stack, to me, means the job isn't done when the code compiles. It's done when it's running for users, and you'd happily ship the next change tomorrow.</blockquote>
+    </div>
+
+    <div class="post-foot mono">
+      <a class="back" href="../blog.html">← All writing</a>
+      <a class="back" href="../index.html#contact">Questions? Get in touch →</a>
+    </div>
+  </div>
+</article>
+</main>
+
+<footer>
+  <div class="shell mono">
+    <span>Chibuike Henry · Vancouver, BC · <span data-year></span></span>
+    <a href="https://github.com/superdevchi">GitHub</a>
+  </div>
+</footer>
+
+<script src="posts.js"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>

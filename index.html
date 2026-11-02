@@ -3,795 +3,568 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script>
-(function(){
-  var saved = localStorage.getItem('theme');
-  var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-  if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-})();
-</script>
-<title>Chibuike Henry — Developer</title>
-<meta name="description" content="Chibuike Henry — iOS, web and backend developer in Vancouver, BC.">
+<script>(function(){try{var s=localStorage.getItem('theme');var t=s||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<title>Chibuike Henry — Full Stack &amp; DevOps Engineer</title>
+<meta name="description" content="Chibuike Henry — full stack and DevOps engineer in Vancouver, BC. iOS, web and backend systems, CI/CD pipelines and deployment. Founder of Silistudio.">
+<meta property="og:title" content="Chibuike Henry — Full Stack &amp; DevOps Engineer">
+<meta property="og:description" content="Full stack and DevOps: iOS, web, backend, CI/CD and deployment. Founder of Silistudio. Vancouver, BC.">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
-<style>
-/* ============================================================
-   TOKENS — cool paper, deep ink, one teal accent.
-   ============================================================ */
-:root{
-  --paper:   #ffffff;
-  --card:    #ffffff;
-  --rule:    #e2e8ed;
-  --rule-hi: #c3cfda;
-  --text:    #101a28;
-  --muted:   #55677d;
-  --dim:     #8b9aab;
-  --teal:    #0f7c8c;
-  --violet:  #5b3fa8;
-  --amber:   #a9671c;
-
-  --shell: min(1080px, 100% - 3rem);
-  --col:   min(58ch, 100%);
-
-  --f-display: "Bricolage Grotesque", "Trebuchet MS", "Segoe UI", sans-serif;
-  --f-body: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-
-  --ease: cubic-bezier(.22,.61,.36,1);
-  --lift: 0 1px 2px rgba(16,26,40,.04), 0 14px 34px -16px rgba(16,26,40,.20);
-
-  --nav-bg:   rgba(241,244,246,.78);
-  --chip-bg:  rgba(255,255,255,.7);
-  --card-alt: #fbfcfd;
-}
-
-html[data-theme="dark"]{
-  --paper:   #12161c;
-  --card:    #1a1f27;
-  --rule:    #2a313c;
-  --rule-hi: #3a4451;
-  --text:    #eef2f6;
-  --muted:   #9aa7b8;
-  --dim:     #6b7684;
-  --teal:    #2fb8c9;
-  --violet:  #9a82e0;
-  --amber:   #d6912f;
-  --lift: 0 1px 2px rgba(0,0,0,.24), 0 14px 34px -16px rgba(0,0,0,.55);
-  --nav-bg:   rgba(18,22,28,.78);
-  --chip-bg:  #1f2530;
-  --card-alt: #161b22;
-}
-html{ transition:background-color .3s var(--ease); }
-body{ transition:background-color .3s var(--ease), color .3s var(--ease); }
-
-*,*::before,*::after{ box-sizing:border-box; }
-html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
-
-body{
-  margin:0;
-  background:var(--paper);
-  color:var(--text);
-  font-family:var(--f-body);
-  font-size:clamp(14px,.5vw + 12.8px,16px);
-  line-height:1.48;
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-}
-
-body::before{
-  content:"";
-  position:fixed; inset:0; z-index:0; pointer-events:none;
-  background:
-    radial-gradient(120vw 70vh at 80% -12%, rgba(15,124,140,.04), transparent 55%),
-    radial-gradient(90vw 60vh at 4% 44%, rgba(91,63,168,.03), transparent 52%);
-}
-
-img{ max-width:100%; display:block; }
-a{ color:inherit; }
-:focus-visible{ outline:2px solid var(--teal); outline-offset:3px; border-radius:2px; }
-
-/* ============================================================
-   TYPE
-   ============================================================ */
-h1,h2,h3{ font-family:var(--f-display); font-weight:500; margin:0; }
-h1{ font-size:clamp(2.1rem,6.2vw,4.35rem); line-height:1.02; letter-spacing:-.035em; }
-h2{ font-size:clamp(1.5rem,3.1vw,2.1rem); line-height:1.12; letter-spacing:-.025em; }
-h3{ font-size:1.06rem; line-height:1.3; letter-spacing:-.012em; }
-p{ margin:0 0 1em; }
-p:last-child{ margin-bottom:0; }
-.lede{ font-size:clamp(1rem,1.35vw,1.14rem); color:var(--muted); max-width:48ch; }
-
-/* ============================================================
-   SHELL + SECTIONS
-   ============================================================ */
-.shell{ width:var(--shell); margin-inline:auto; position:relative; z-index:1; }
-section{ position:relative; padding-block:clamp(.85rem,1.6vh,1.25rem); }
-
-.head{
-  display:flex; align-items:baseline; gap:1rem;
-  padding-bottom:.5rem; margin-bottom:.75rem;
-  border-bottom:1px solid var(--rule);
-}
-.head h2{ flex:1 1 auto; }
-.head .count{ font-size:.82rem; color:var(--dim); font-variant-numeric:tabular-nums; }
-
-/* ============================================================
-   NAV
-   ============================================================ */
-.nav{
-  position:fixed; inset:0 0 auto 0; z-index:50;
-  display:flex; align-items:center; gap:1.25rem;
-  padding:.55rem max(1.5rem,calc((100vw - var(--shell))/2));
-  background:var(--nav-bg);
-  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
-  border-bottom:1px solid transparent;
-  transition:border-color .4s var(--ease), transform .45s var(--ease);
-}
-.nav.lifted{ border-bottom-color:var(--rule); }
-.nav.hide{ transform:translateY(-105%); }
-
-.mark{
-  font-family:var(--f-display); font-weight:700; font-size:1rem;
-  letter-spacing:-.04em; text-decoration:none; margin-right:auto;
-  display:inline-flex; align-items:center; gap:.5rem;
-}
-.mark span{ width:7px; height:7px; border-radius:50%; background:var(--teal); }
-
-.nav ol{ display:flex; gap:1.5rem; list-style:none; margin:0; padding:0; font-size:.86rem; }
-.nav a{ text-decoration:none; color:var(--muted); transition:color .25s var(--ease); padding-block:.25rem; }
-.nav a:hover, .nav a[aria-current="true"]{ color:var(--text); }
-
-.theme-toggle{
-  display:grid; place-items:center; margin-left:.5rem;
-  width:2rem; height:2rem; padding:0; border-radius:999px;
-  border:1px solid var(--rule); background:var(--card); color:var(--muted);
-  cursor:pointer; transition:color .25s var(--ease), border-color .25s var(--ease);
-}
-.theme-toggle:hover{ color:var(--teal); border-color:var(--rule-hi); }
-.theme-toggle svg{ width:16px; height:16px; }
-.theme-toggle .icon-moon{ display:none; }
-html[data-theme="dark"] .theme-toggle .icon-sun{ display:none; }
-html[data-theme="dark"] .theme-toggle .icon-moon{ display:block; }
-
-.progress{
-  position:fixed; top:0; left:0; z-index:60; height:2px; width:100%;
-  transform:scaleX(0); transform-origin:0 50%;
-  background:linear-gradient(90deg,var(--teal),var(--violet));
-}
-@media (max-width:640px){ .nav ol{ display:none; } }
-
-/* ============================================================
-   HERO (typographic styles for the intro copy column)
-   ============================================================ */
-#about{ padding-top:4rem; }
-
-.tag{ display:inline-flex; align-items:center; gap:.6rem; font-size:.8rem; color:var(--muted); margin-bottom:.85rem; }
-.tag i{
-  width:6px; height:6px; border-radius:50%; background:var(--amber);
-  box-shadow:0 0 0 0 rgba(169,103,28,.45);
-  animation:pulse 2.6s var(--ease) infinite;
-}
-@keyframes pulse{
-  70%{ box-shadow:0 0 0 9px rgba(169,103,28,0); }
-  100%{ box-shadow:0 0 0 0 rgba(169,103,28,0); }
-}
-
-.hero h1{ max-width:15ch; font-size:clamp(1.7rem,4vw,2.75rem); }
-.hero h1 em{
-  font-style:normal;
-  background:linear-gradient(100deg,var(--teal),var(--violet) 75%);
-  -webkit-background-clip:text; background-clip:text; color:transparent;
-}
-.hero .lede{ margin-top:.55rem; }
-.hero p{ margin-bottom:.4em; }
-
-.meta{ display:flex; flex-wrap:wrap; gap:.35rem; margin-top:.65rem; list-style:none; padding:0; }
-.meta li{
-  font-size:.75rem; color:var(--muted);
-  border:1px solid var(--rule); border-radius:999px;
-  padding:.22rem .6rem; background:var(--chip-bg);
-}
-
-.hero-rail{
-  display:flex; flex-wrap:wrap; gap:.5rem 2rem;
-  align-items:baseline; justify-content:flex-start;
-  margin-top:.75rem; padding-top:.55rem;
-  border-top:1px solid var(--rule);
-  font-size:.83rem; color:var(--muted);
-}
-.hero-rail .now{ margin:0; }
-.hero-rail .now a{
-  color:var(--text); text-decoration:none;
-  border-bottom:1px solid var(--rule-hi);
-  transition:color .25s var(--ease), border-color .25s var(--ease);
-}
-.hero-rail .now a:hover{ color:var(--teal); border-bottom-color:var(--teal); }
-.quick{ display:flex; gap:1.4rem; list-style:none; margin:0; padding:0; }
-.quick a{
-  text-decoration:none; color:var(--muted);
-  border-bottom:1px solid transparent;
-  transition:color .25s var(--ease), border-color .25s var(--ease);
-}
-.quick a:hover{ color:var(--amber); border-bottom-color:var(--amber); }
-
-/* ============================================================
-   ABOUT — portrait floating above a live point-wave
-   ============================================================ */
-.about-grid{ display:grid; gap:.65rem; grid-template-columns:1fr 1fr; align-items:start; }
-.about-grid > .hero{ grid-column:1 / -1; }
-@media (min-width:860px){
-  .about-grid{ gap:clamp(.85rem,2vw,1.25rem); grid-template-columns:repeat(4, 1fr); }
-  .about-grid > .hero{ grid-column:auto; }
-}
-.about-copy p{ max-width:var(--col); }
-
-/* --- PHOTO --------------------------------------------------
-   Save your picture beside this file as  photo.jpg
-   (or change the src on the <img> below).
-   ------------------------------------------------------------ */
-.portrait{
-  position:relative; perspective:900px;
-  aspect-ratio:4/5; max-width:70%; margin-inline:auto;
-  border-radius:16px; overflow:hidden;
-  border:1px solid var(--rule); background:var(--card);
-  box-shadow:var(--lift);
-}
-.portrait .plate{
-  position:absolute; inset:9%;
-  transform-style:preserve-3d;
-  transition:transform .1s linear;
-}
-.portrait img{
-  width:100%; height:100%; object-fit:cover;
-  border-radius:10px; display:none;
-  box-shadow:0 18px 40px -18px rgba(16,26,40,.45);
-  transform:translateZ(46px);
-}
-.portrait.has-photo img{ display:block; }
-.portrait.has-photo .drop{ display:none; }
-.drop{
-  position:absolute; inset:0; display:grid; place-items:center;
-  border:1px dashed var(--rule-hi); border-radius:10px;
-  background:var(--chip-bg);
-  transform:translateZ(46px);
-  font-size:.84rem; color:var(--dim); text-align:center; padding:1rem;
-}
-.drop code{ font-size:.82rem; color:var(--teal); }
-
-.facts{ list-style:none; margin:.6rem 0 0; padding:0; border-top:1px solid var(--rule); max-width:var(--col); }
-.facts li{
-  display:flex; gap:1.2rem; align-items:baseline;
-  padding:.28rem 0; border-bottom:1px solid var(--rule); font-size:.8rem;
-}
-.facts b{ flex:0 0 6.5rem; color:var(--dim); font-weight:400; font-size:.8rem; }
-
-/* ============================================================
-   EXPERIENCE — embedded in the About column
-   ============================================================ */
-.head-mini{ margin:0 0 .5rem; padding-bottom:.35rem; border-bottom:1px solid var(--rule); }
-.head-mini h2{ font-size:1.05rem; }
-.role{
-  padding:.4rem 0; border-bottom:1px solid var(--rule);
-  transition:border-color .3s var(--ease);
-}
-.role:first-child{ border-top:1px solid var(--rule); }
-.role:hover{ border-bottom-color:var(--rule-hi); }
-.role h3{ font-size:.94rem; }
-.role .when{ font-size:.76rem; color:var(--dim); font-variant-numeric:tabular-nums; }
-.role .org{ font-size:.82rem; color:var(--muted); margin:.1rem 0 .1rem; }
-.role .kind{
-  font-size:.7rem; color:var(--dim); display:inline-block;
-  border:1px solid var(--rule); border-radius:999px;
-  padding:.14rem .55rem; margin-top:.35rem;
-}
-
-/* ============================================================
-   PROJECTS
-   ============================================================ */
-.projects{
-  position:relative; width:100%; max-width:24rem; margin-inline:auto;
-}
-.card{
-  perspective:1200px; position:absolute; inset:0;
-  cursor:pointer;
-  transform-origin:50% 100%;
-  transition:transform .45s var(--ease), opacity .4s var(--ease);
-  transform:
-    translateY(calc(var(--i, 0) * .5rem))
-    translateX(calc(var(--i, 0) * .4rem))
-    scale(calc(1 - var(--i, 0) * .035))
-    rotate(calc(var(--i, 0) * 1.1deg));
-  z-index:calc(20 - var(--i, 0));
-  opacity:calc(1 - var(--i, 0) * .12);
-}
-.card:not([data-front]){ pointer-events:none; }
-.card[data-front]{
-  cursor:pointer; position:relative; inset:auto;
-}
-.stack-hint{
-  text-align:center; font-size:.8rem; color:var(--dim); margin-top:.9rem;
-}
-.stack-hint b{ color:var(--muted); font-weight:500; }
-.card-inner{
-  position:relative; transform-style:preserve-3d;
-  transition:transform .5s var(--ease);
-  min-height:12rem; border-radius:10px; box-shadow:var(--lift);
-}
-.card.flipped .card-inner{ transform:rotateY(180deg) !important; }
-
-.face{
-  position:absolute; inset:0;
-  backface-visibility:hidden; -webkit-backface-visibility:hidden;
-  border:1px solid var(--rule); border-radius:10px; padding:1rem;
-  background: var(--card);
-  display:flex; flex-direction:column; overflow:hidden;
-}
-.face.back{ transform:rotateY(180deg); background:var(--card-alt); overflow-y:auto; }
-.card-inner > .face:first-child{ position:relative; }
-
-.face .top{ display:flex; align-items:flex-start; justify-content:space-between; gap:.6rem; margin-bottom:.45rem; }
-.face .state{
-  font-size:.68rem; color:var(--teal);
-  border:1px solid rgba(15,124,140,.3); border-radius:999px;
-  padding:.14rem .5rem; white-space:nowrap; transform:translateZ(28px);
-}
-.face h3{ transform:translateZ(34px); font-size:1.05rem; }
-.face p{ font-size:.86rem; color:var(--muted); max-width:50ch; transform:translateZ(18px); }
-.face .impact{ font-size:.8rem; color:var(--text); transform:translateZ(20px); }
-.face .impact b{ color:var(--teal); font-weight:500; }
-.face .tech{
-  display:flex; flex-wrap:wrap; gap:.34rem;
-  list-style:none; margin:auto 0 0; padding:.7rem 0 0; transform:translateZ(12px);
-}
-.face .tech li{ font-size:.72rem; color:var(--dim); border:1px solid var(--rule); border-radius:5px; padding:.12rem .44rem; }
-
-.actions{ display:flex; flex-wrap:wrap; align-items:center; gap:.7rem; margin-top:.4rem; transform:translateZ(26px); }
-.actions a{
-  font-size:.78rem; color:var(--teal); text-decoration:none;
-  border-bottom:1px solid rgba(15,124,140,.32);
-  transition:border-color .25s var(--ease);
-}
-.actions a:hover{ border-bottom-color:var(--teal); }
-.turn{
-  background:none; border:0; padding:0; margin:0;
-  color:var(--amber); font:inherit; font-size:.78rem; cursor:pointer;
-  border-bottom:1px solid rgba(169,103,28,.35);
-  transition:border-color .25s var(--ease);
-}
-.turn:hover{ border-bottom-color:var(--amber); }
-.face.back ul{ margin:.15rem 0 0; padding-left:.9rem; font-size:.72rem; color:var(--muted); }
-.face.back li{ margin-bottom:.22rem; }
-
-@media (max-width:859.98px){
-  .portrait{ max-width:85%; margin-inline:0; }
-  .facts li{ display:block; padding:.4rem 0; }
-  .facts b{ display:block; margin-bottom:.1rem; }
-  .projects-col{ grid-column:1 / -1; }
-  #projectStack{
-    max-width:none; height:auto !important;
-    display:grid; grid-template-columns:1fr 1fr; gap:.5rem;
-  }
-  #projectStack .card{
-    position:static; transform:none !important; opacity:1 !important;
-    z-index:auto; pointer-events:auto;
-  }
-  #projectStack .card-inner{ min-height:9rem; }
-  #projectStack .face{ padding:.6rem; }
-  #projectStack .face h3{ font-size:.84rem; }
-  #projectStack .face p{ font-size:.7rem; }
-  #projectStack .face .impact{ font-size:.66rem; }
-  #projectStack .face .tech{ gap:.22rem; padding-top:.4rem; }
-  #projectStack .face .tech li{ font-size:.58rem; padding:.06rem .3rem; }
-  #projectStack .actions{ gap:.4rem; margin-top:.3rem; }
-  #projectStack .actions a, #projectStack .turn{ font-size:.66rem; }
-  .stack-hint{ display:none; }
-}
-
-footer{
-  border-top:1px solid var(--rule); padding:.75rem 0 1.2rem;
-  font-size:.82rem; color:var(--dim);
-  display:flex; flex-wrap:wrap; gap:.6rem 1.5rem; justify-content:space-between;
-}
-
-/* ============================================================
-   REVEAL
-   ============================================================ */
-.rise{
-  opacity:0; transform:translateY(24px) rotateX(9deg) translateZ(-40px);
-  transform-origin:50% 100%;
-  transition:opacity .8s var(--ease), transform .9s var(--ease);
-}
-.rise.in{ opacity:1; transform:none; }
-
-@media (prefers-reduced-motion:reduce){
-  html{ scroll-behavior:auto; }
-  *,*::before,*::after{
-    animation-duration:.001ms !important;
-    animation-iteration-count:1 !important;
-    transition-duration:.001ms !important;
-  }
-  .rise{ opacity:1; transform:none; }
-}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
 
-<div class="progress" id="progress" aria-hidden="true"></div>
-
-<nav class="nav" id="nav" aria-label="Sections">
-  <a class="mark" href="#top"><span aria-hidden="true"></span>Chibuike Henry</a>
-  <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
-    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-      <circle cx="12" cy="12" r="4"></circle>
-      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
-    </svg>
-    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-      <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"></path>
-    </svg>
-  </button>
+<nav class="nav" aria-label="Main">
+  <div class="shell">
+    <a class="brand" href="#top"><b>Chibuike Henry</b><span class="mono">Vancouver, BC</span></a>
+    <ul>
+      <li class="opt"><a href="#work">Work</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="blog.html">Writing</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/></svg>
+    </button>
+  </div>
 </nav>
 
 <main id="top">
 
-<!-- ============ INTRO (hero + about, one row) ============ -->
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="shell">
+    <div class="hero-top mono">
+      <span>49.28°N 122.79°W / Coquitlam, BC</span>
+      <span>iOS · web · backend · DevOps</span>
+    </div>
+
+    <div class="hero-grid">
+      <div>
+        <p class="role-line mono"><i aria-hidden="true"></i>Full stack &amp; DevOps engineer, founder · open to work</p>
+        <h1 class="name">Chibuike<br>Henry<span class="dot">.</span></h1>
+        <p class="lede">
+          Five years of writing the code and shipping it: iOS, web and backend systems,
+          plus the CI/CD pipelines and cloud deployments that get them to production
+          smoothly. I founded
+          <a class="ul" href="https://studio-cfxh.onrender.com/">Silistudio</a>, an AI creative studio on iOS and the web.
+        </p>
+        <div class="cta">
+          <a class="btn solid" href="#projects">See projects →</a>
+          <a class="btn ghost" href="blog.html">Read my writing</a>
+        </div>
+      </div>
+
+      <!-- Interactive diagram of Silistudio's real architecture -->
+      <figure class="arch" style="margin:0" aria-label="Interactive diagram of Silistudio's architecture">
+        <div class="arch-bar mono">
+          <span>silistudio / architecture</span>
+          <span class="hint">drag it · hover a box</span>
+        </div>
+        <svg id="archSvg" viewBox="0 0 600 380" role="img" aria-labelledby="archTitle">
+          <title id="archTitle">Silistudio architecture: iOS and web clients call one Spring WebFlux API, which uses Supabase, fal.ai and Stripe. A GitHub Actions pipeline deploys the API and web app to Render.</title>
+          <g id="edges"></g>
+          <g id="pulses"></g>
+          <g id="nodes"></g>
+        </svg>
+        <figcaption class="arch-note" id="archNote" aria-live="polite">
+          <b>Silistudio, as it actually runs</b>
+          Two clients, one reactive Java API, and a pipeline that ships both. Hover or tap any box for what it does.
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATS ============
+     EDIT: swap in real usage numbers when you have them (users, generations, orders). -->
+<section class="stats" aria-label="At a glance">
+  <div class="shell">
+    <ol>
+      <li><span class="num" data-count="5" data-suffix="+">5+</span><span class="lbl">years full stack</span></li>
+      <li><span class="num" data-count="5" data-suffix="+">5+</span><span class="lbl">years DevOps &amp; deployment</span></li>
+      <li><span class="num" data-count="3">3</span><span class="lbl">platforms: iOS, web, macOS</span></li>
+      <li><span class="num" data-count="1">1</span><span class="lbl">live product people pay for</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ ABOUT + NOW ============ -->
 <section id="about">
   <div class="shell">
+    <div class="sec-head rise">
+      <h2>About<span class="dot">.</span></h2>
+      <p>Full stack engineer who also owns the pipeline: I write it, test it, ship it and keep it running.</p>
+    </div>
+
     <div class="about-grid">
-      <div class="hero about-copy rise">
-        <p class="tag"><i aria-hidden="true"></i>Vancouver, BC · open to work</p>
-        <h1>Software engineer with <em>5+ years</em> of experience.</h1>
-        <p class="lede">
-          I build iOS, web and backend systems, manage the developers and teams who build them with me.
-        </p>
-        <ul class="meta">
-          <li>SwiftUI</li><li>React</li><li>Java</li><li>Python</li>
-        </ul>
+      <div class="about-copy rise">
+        <div class="photo-row">
+          <div class="photo">
+            <img src="https://v3b.fal.media/files/b/0aac64aa/lmm2NjG-S8TT3RHzvJSzB_ba63a86fb9f2460695d6ad39a14759b7.jpg" alt="Chibuike Henry" loading="lazy">
+          </div>
+          <p class="mono" style="margin:0">BSc Software Engineering, Babcock University<br>MBA Technical Management, Kwantlen Polytechnic University</p>
+        </div>
+        <p>I started with iOS, writing UIKit interfaces and wiring them to backend APIs. I moved to the web and the server side at Body Secret, where I built the ecommerce backend in <strong>Java Spring Boot and PostgreSQL</strong> and the React storefront on top of it.</p>
+        <p>Since 2024 I've been building <strong>Silistudio</strong>: a SwiftUI app and a React app sharing one reactive Java backend, with AI image and video generation streamed over WebSockets and Stripe handling payments.</p>
+        <p>Alongside the code, I've spent five years on the other half of the job: <strong>DevOps</strong>. I build the CI/CD pipelines that test and ship every change, containerise services with Docker, and run the deployments, so code moves from a commit to production without drama.</p>
+        <p>These days I work with AI every day, both as the thing I build and as the way I build it. I pick the language to fit the problem: Swift for the phone, Java for the server, Python when it's a pipeline.</p>
+      </div>
 
-        <!-- EDIT: your email and GitHub -->
-        <div class="hero-rail">
-          <p class="now"> Currently building   <a href="https://studio-cfxh.onrender.com/"> Silistudio</a>.</p>
-          <ul class="quick">
-            <li><a href="mailto:chibuikeoswaldhenrychime@gmail.com">Email</a></li>
-            <li><a href="https://github.com/superdevchi">GitHub</a></li>
-            <li><a href="https://linkedin.com/in/chibuikehenrychime ">Linkedin</a></li>
+      <div class="rise">
+        <div class="now">
+          <dl>
+            <div class="row"><dt>Building</dt><dd>Silistudio, on iOS and the web</dd></div>
+            <div class="row"><dt>Stack</dt><dd>Swift, React, Java (Spring WebFlux), Python, PostgreSQL</dd></div>
+            <div class="row"><dt>DevOps</dt><dd>CI/CD with GitHub Actions, Docker, Render, automated tests, health checks</dd></div>
+            <div class="row"><dt>Also</dt><dd>Supabase, Stripe, fal.ai, WebSockets, Claude API</dd></div>
+            <div class="row"><dt>Writing</dt><dd><a class="ul" href="blog.html">Notes from the build</a></dd></div>
+            <div class="row"><dt>Based</dt><dd>Coquitlam, BC · open to remote</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WORK ============ -->
+<section id="work">
+  <div class="shell">
+    <div class="sec-head rise">
+      <h2>Work<span class="dot">.</span></h2>
+      <p>Three roles across iOS, web and founding. Open a row for what I did there.</p>
+    </div>
+
+    <div class="rows rise">
+      <details>
+        <summary>
+          <span class="idx">01</span>
+          <h3>Founder &amp; Independent Contractor</h3>
+          <span class="one">Silistudio · Vancouver, BC</span>
+          <span class="meta">Jan 2024 → now</span>
+          <span class="open"></span>
+        </summary>
+        <div class="row-body">
+          <ul>
+            <li>Designed and built Silistudio end to end: SwiftUI on iOS, React on the web, and one Spring WebFlux backend serving both.</li>
+            <li>Built streaming AI generation over WebSockets, with credit reservation so failed jobs never cost the user.</li>
+            <li>Integrated Stripe Checkout and webhooks, Supabase auth and storage, and an in-browser video editor.</li>
+            <li>Own the delivery pipeline: GitHub Actions tests and builds every push, the API ships as a Docker image to Render, and the web app deploys as a static site.</li>
+            <li>Lead the developers and AI agents working on the product, and take on contract builds alongside it.</li>
           </ul>
+          <ul class="tags"><li>SwiftUI</li><li>React</li><li>Java</li><li>Spring WebFlux</li><li>Supabase</li><li>Stripe</li><li>Docker</li><li>GitHub Actions</li></ul>
         </div>
-      </div>
+      </details>
 
-      <div class="rise">
-        <!-- PHOTO GOES HERE: save it beside this file as photo.jpg -->
-        <div class="portrait" id="portrait">
-          <div class="plate" id="plate">
-            <img id="me" src="https://v3b.fal.media/files/b/0aac64aa/lmm2NjG-S8TT3RHzvJSzB_ba63a86fb9f2460695d6ad39a14759b7.jpg" alt="Chibuike Henry">
-            <div class="drop">Beautiful Image</div>
-          </div>
+      <details>
+        <summary>
+          <span class="idx">02</span>
+          <h3>Web Developer</h3>
+          <span class="one">Body Secret</span>
+          <span class="meta">Mar 2022 → Nov 2023</span>
+          <span class="open"></span>
+        </summary>
+        <div class="row-body">
+          <ul>
+            <li>Led the design and build of the ecommerce database in Java Spring Boot and PostgreSQL, so the team could upload and manage skincare products on the official site.</li>
+            <li>Built an order tracking and receiving dashboard in HTML, CSS and JavaScript, giving real-time views of order status and inventory.</li>
+            <li>Led the build of a responsive sales site in React, tuned to handle a significant increase in orders without slowing down.</li>
+          </ul>
+          <ul class="tags"><li>Java</li><li>Spring Boot</li><li>PostgreSQL</li><li>React</li><li>JavaScript</li></ul>
         </div>
-        <ul class="facts">
-          <li><b>Based in</b><span>Coquitlam, BC</span></li>
-          <li><b>Education</b><span>BSc Software Engineering, Babcock University<br>MBA Technical Management, Kwantlen Polytechnic University</span></li>
-        </ul>
-      </div>
+      </details>
 
-      <div class="rise">
-        <div class="head-mini" id="work">
-          <h2>Work</h2>
+      <details>
+        <summary>
+          <span class="idx">03</span>
+          <h3>iOS Developer Intern</h3>
+          <span class="one">Sprint Hub</span>
+          <span class="meta">Feb 2020 → Feb 2021</span>
+          <span class="open"></span>
+        </summary>
+        <div class="row-body">
+          <ul>
+            <li>Designed and built client interfaces in Swift and UIKit, focused on usability and engagement.</li>
+            <li>Refactored and extended an existing codebase, adding features and improving readability.</li>
+            <li>Shipped weekly coding projects, including a mobile game and a file-sharing app.</li>
+            <li>Implemented CRUD against backend APIs, keeping front end and back end in sync.</li>
+          </ul>
+          <ul class="tags"><li>Swift</li><li>UIKit</li><li>REST APIs</li></ul>
         </div>
-        <div class="timeline" id="timeline">
+      </details>
+    </div>
+  </div>
+</section>
 
-          <article class="role">
-            <p class="when">Jan 2024 — now</p>
-            <p class="org">Silistudio · Vancouver, BC</p>
-            <h3>Founder &amp; Independent Contractor</h3>
-            <span class="kind">Founder</span>
-          </article>
+<!-- ============ PROJECTS ============
+     EDIT: point each GitHub link at the project's own repo.
+     EDIT: screenshots go in img/ — e.g. img/silistudio.png -->
+<section id="projects">
+  <div class="shell">
+    <div class="sec-head rise">
+      <h2>Projects<span class="dot">.</span></h2>
+      <p>Built at work and after it. Open a row for the problem, what I did, and what happened.</p>
+    </div>
 
-          <article class="role">
-            <p class="when">Mar 2022 — Nov 2023</p>
-            <p class="org">Body Secret</p>
-            <h3>Web Developer</h3>
-            <span class="kind">Web</span>
-          </article>
-
-          <article class="role">
-            <p class="when">Feb 2020 — Feb 2021</p>
-            <p class="org">Sprint Hub</p>
-            <h3>iOS Developer Intern</h3>
-            <span class="kind">iOS</span>
-          </article>
-
-        </div>
-      </div>
-
-      <div class="rise projects-col">
-        <div class="head-mini" id="projects">
-          <h2>Projects</h2>
-        </div>
-        <div class="projects" id="projectStack">
-
-      <!-- ① Silistudio — featured, full width -->
-      <div class="card" data-tilt data-key="0">
-        <div class="card-inner">
-          <div class="face">
-            <div class="top"><h3>Silistudio</h3><span class="state">Shipped</span></div>
-            <p>AI creative studio that generates images and video from a prompt, with in-platform editing.
-            Ships on iOS and web over one Java backend.</p>
-            <p class="impact"><b>Impact:</b> Runs as a live product people pay to use, not a demo.</p>
-            <ul class="tech">
-              <li>SwiftUI</li><li>React</li><li>Java</li><li>Spring WebFlux</li>
-              <li>Supabase</li><li>Stripe</li>
-            </ul>
-            <div class="actions">
-              <a href="https://studio-cfxh.onrender.com/">Live site</a><a href="https://studio-cfxh.onrender.com/">iOS app</a><a href="https://github.com/superdevchi">GitHub</a>
-              <button class="turn" type="button">Details</button>
+    <div class="rows rise">
+      <details open>
+        <summary>
+          <span class="idx">01</span>
+          <h3>Silistudio</h3>
+          <span class="one">AI creative studio for images and video, on iOS and the web.</span>
+          <span class="meta">Founder · live</span>
+          <span class="open"></span>
+        </summary>
+        <div class="row-body has-shot">
+          <div>
+            <div class="pwr">
+              <div><h4>Problem</h4><p>Making AI images and video meant juggling separate tools to generate, edit and keep the results.</p></div>
+              <div><h4>What I did</h4><p>Built one product for both: a SwiftUI app and a React app over a single reactive Java API, with results streamed live.</p></div>
+              <div><h4>Result</h4><p>A live product that people pay to use, not a demo.</p></div>
+            </div>
+            <ul class="tags" style="margin-top:1rem"><li>SwiftUI</li><li>React</li><li>Spring WebFlux</li><li>R2DBC</li><li>Supabase</li><li>fal.ai</li><li>Stripe</li><li>Docker</li><li>GitHub Actions</li></ul>
+            <div class="row-links" style="margin-top:.9rem">
+              <a class="ul" href="https://studio-cfxh.onrender.com/">Live site</a>
+              <a class="ul" href="posts/one-backend-two-clients.html">How it's wired</a>
+              <a class="ul" href="posts/push-to-production.html">How it ships</a>
+              <a class="ul" href="https://github.com/superdevchi">GitHub</a>
             </div>
           </div>
-          <div class="face back">
-            <h3>Silistudio</h3>
-            <ul>
-              <li>One API, two clients: SwiftUI on iOS and React on the web.</li>
-              <li>Spring WebFlux and R2DBC on Supabase Postgres, reactive end to end.</li>
-              <li>AI inference streamed over WebSocket, not polled.</li>
-              <li>Stripe Checkout and webhooks; in-browser video editor on canvas and WebAudio.</li>
-            </ul>
-            <div class="actions"><button class="turn" type="button">Back</button></div>
+          <div class="frame">
+            <div class="chrome"><i></i><i></i><i></i><span>studio-cfxh.onrender.com</span></div>
+            <img src="img/silistudio.png" alt="Silistudio app screenshot" loading="lazy"
+                 onerror="this.outerHTML='<div class=&quot;empty&quot;>Add a screenshot at img/silistudio.png</div>'">
           </div>
         </div>
-      </div>
+      </details>
 
-      <!-- ② Body Secret — Rider delivery app -->
-      <div class="card" data-tilt data-key="1">
-        <div class="card-inner">
-          <div class="face">
-            <div class="top"><h3>Body Secret — Rider App</h3><span class="state">Shipped</span></div>
-            <p>End-to-end delivery system for a skincare brand: rider-facing mobile app,
-            real-time order dispatch, and a live dashboard for operations.</p>
-            <p class="impact"><b>Impact:</b> Replaced manual phone dispatch with live tracking the ops team uses daily.</p>
-            <ul class="tech">
-              <li>React</li><li>Java</li><li>Spring Boot</li>
-              <li>PostgreSQL</li><li>WebSockets</li>
-            </ul>
-            <div class="actions">
-              <a href="https://github.com/superdevchi">GitHub</a>
-              <button class="turn" type="button">Details</button>
-            </div>
+      <details>
+        <summary>
+          <span class="idx">02</span>
+          <h3>Body Secret — Rider App</h3>
+          <span class="one">Delivery dispatch and live tracking for a skincare brand.</span>
+          <span class="meta">Client · shipped</span>
+          <span class="open"></span>
+        </summary>
+        <div class="row-body">
+          <div class="pwr">
+            <div><h4>Problem</h4><p>Orders were phoned through to riders, with no visibility and no record of delivery.</p></div>
+            <div><h4>What I did</h4><p>Built a rider app, real-time dispatch and an ops dashboard on the same Spring Boot and PostgreSQL stack as the store, with status pushed over WebSockets.</p></div>
+            <div><h4>Result</h4><p>Replaced phone dispatch with live tracking the ops team uses daily.</p></div>
           </div>
-          <div class="face back">
-            <h3>Body Secret — Rider App</h3>
-            <ul>
-              <li>Rider-facing UI: accepts, tracks and completes deliveries in real time.</li>
-              <li>Operations dashboard shows live order status and inventory alongside the existing ecommerce backend.</li>
-              <li>Order-tracking built on the same Spring Boot + PostgreSQL stack as the main site.</li>
-              <li>WebSocket channel pushes status changes to the dashboard without polling.</li>
-            </ul>
-            <div class="actions"><button class="turn" type="button">Back</button></div>
-          </div>
+          <ul class="tags"><li>React</li><li>Java</li><li>Spring Boot</li><li>PostgreSQL</li><li>WebSockets</li></ul>
+          <div class="row-links"><a class="ul" href="https://github.com/superdevchi">GitHub</a></div>
         </div>
-      </div>
+      </details>
 
-      <!-- ⑤ AI content pipeline -->
-      <div class="card" data-tilt data-key="2">
-        <div class="card-inner">
-          <div class="face">
-            <div class="top"><h3>AI Content Pipeline</h3><span class="state">Shipped</span></div>
-            <p>A Python pipeline that holds one fictional model's visual identity
-            across a full product catalogue, with consistent face, pose and lighting
-            at scale without a studio.</p>
-            <p class="impact"><b>Impact:</b> Gave one brand a full product catalogue without booking a studio shoot.</p>
-            <ul class="tech"><li>Python</li><li>Prompt engineering</li></ul>
-            <div class="actions">
-              <a href="https://github.com/superdevchi">GitHub</a>
-              <button class="turn" type="button">Details</button>
-            </div>
+      <details>
+        <summary>
+          <span class="idx">03</span>
+          <h3>Sentinel</h3>
+          <span class="one">macOS app that turns screen time into a searchable timeline.</span>
+          <span class="meta">Personal · shipped</span>
+          <span class="open"></span>
+        </summary>
+        <div class="row-body">
+          <div class="pwr">
+            <div><h4>Problem</h4><p>Hours of work on screen leave no record you can search later.</p></div>
+            <div><h4>What I did</h4><p>Swift capture client with consent indicators and on-device blurring, a Java Spring backend streaming progress over WebSockets, and a multi-model AI pass extracting topics, tasks and links.</p></div>
+            <div><h4>Result</h4><p>A searchable timeline built automatically, with no manual notes and one-click delete.</p></div>
           </div>
-          <div class="face back">
-            <h3>AI Content Pipeline</h3>
-            <ul>
-              <li>Uses image and video generation models across five endpoint families, from text-to-image through video-to-video.</li>
-              <li>Locked character block reused verbatim on every call; only the angle changes per shot.</li>
-              <li>Two-pass approach: generate a base image, then refine through an edit model for photorealism.</li>
-            </ul>
-            <div class="actions"><button class="turn" type="button">Back</button></div>
-          </div>
+          <ul class="tags"><li>Swift</li><li>Java</li><li>Spring</li><li>PostgreSQL</li><li>WebSockets</li></ul>
+          <div class="row-links"><a class="ul" href="https://github.com/superdevchi/AssistantInterview">GitHub</a></div>
         </div>
-      </div>
+      </details>
 
-      <!-- ⑥ Sentinel — macOS screen monitor -->
-      <div class="card" data-tilt data-key="3">
-        <div class="card-inner">
-          <div class="face">
-            <div class="top"><h3>Sentinel</h3><span class="state">Shipped</span></div>
-            <p>macOS app that captures your screen with consent, runs it through AI,
-            and turns it into a searchable timeline of summaries, entities and tasks.</p>
-            <p class="impact"><b>Impact:</b> Turns hours of screen time into a searchable record automatically, with no manual notes.</p>
-            <ul class="tech">
-              <li>Swift</li><li>Java</li><li>Spring</li><li>PostgreSQL</li><li>WebSockets</li>
-            </ul>
-            <div class="actions">
-              <a href="https://github.com/superdevchi/AssistantInterview">GitHub</a>
-              <button class="turn" type="button">Details</button>
-            </div>
+      <details>
+        <summary>
+          <span class="idx">04</span>
+          <h3>Local Browser Assistant</h3>
+          <span class="one">Plain-English instructions, and Claude drives Chrome step by step.</span>
+          <span class="meta">Personal · shipped</span>
+          <span class="open"></span>
+        </summary>
+        <div class="row-body">
+          <div class="pwr">
+            <div><h4>Problem</h4><p>Browser busywork is repetitive, but most automation tools send your data to someone else's cloud.</p></div>
+            <div><h4>What I did</h4><p>Built a local agent with approval gates before risky actions, per-tab chat history, site allow-listing, and page content treated as untrusted data.</p></div>
+            <div><h4>Result</h4><p>Real browser tasks automated locally; nothing leaves the machine except the model call.</p></div>
           </div>
-          <div class="face back">
-            <h3>Sentinel</h3>
-            <ul>
-              <li>Swift client on macOS with persistent consent indicators and on-device blurring for emails, faces and numbers.</li>
-              <li>Java Spring backend streams capture status and analysis progress over WebSocket in real time.</li>
-              <li>Multi-model AI pass (OpenAI + Grok) extracts topics, action items, quotes and linked resources.</li>
-              <li>PostgreSQL-backed timeline is searchable and filterable by date, entity or task; session-level retention with one-click delete.</li>
-            </ul>
-            <div class="actions"><button class="turn" type="button">Back</button></div>
-          </div>
+          <ul class="tags"><li>Node.js</li><li>Chrome</li><li>Claude API</li></ul>
+          <div class="row-links"><a class="ul" href="https://github.com/superdevchi/local-browser-assistant">GitHub</a></div>
         </div>
-      </div>
+      </details>
 
-      <!-- ⑦ Local Browser Assistant -->
-      <div class="card" data-tilt data-key="4">
-        <div class="card-inner">
-          <div class="face">
-            <div class="top"><h3>Local Browser Assistant</h3><span class="state">Shipped</span></div>
-            <p>Type an instruction in plain English and Claude drives Chrome step by
-            step. Everything runs locally, and nothing goes to the cloud except the model call.</p>
-            <p class="impact"><b>Impact:</b> Automates real browser busywork locally, so no data leaves the machine.</p>
-            <ul class="tech">
-              <li>Node.js</li><li>Chrome</li><li>Claude API</li>
-            </ul>
-            <div class="actions">
-              <a href="https://github.com/superdevchi/local-browser-assistant">GitHub</a>
-              <button class="turn" type="button">Details</button>
-            </div>
+      <details>
+        <summary>
+          <span class="idx">05</span>
+          <h3>AI Content Pipeline</h3>
+          <span class="one">One consistent model across a whole product catalogue.</span>
+          <span class="meta">Client · shipped</span>
+          <span class="open"></span>
+        </summary>
+        <div class="row-body">
+          <div class="pwr">
+            <div><h4>Problem</h4><p>Every AI generation produces a different person, but a catalogue needs the same face in every shot.</p></div>
+            <div><h4>What I did</h4><p>A Python pipeline with a locked character block reused on every call, and a two-pass generate-then-refine approach for realism.</p></div>
+            <div><h4>Result</h4><p>Gave one brand a full product catalogue without booking a studio shoot.</p></div>
           </div>
-          <div class="face back">
-            <h3>Local Browser Assistant</h3>
-            <ul>
-              <li>Plain-English instructions get executed step by step in a real Chrome session, with approval gates before any risky action (send, delete, pay, submit).</li>
-              <li>Multiple independent chat tabs, each with its own conversation history; private/incognito mode is visually distinct.</li>
-              <li>Site allow-listing with session or permanent approval, plus support for account creation and password entry.</li>
-              <li>Treats page content as untrusted data and is built with prompt-injection awareness in mind. Fully local: browser profiles and action logs stay on your machine, using your own Anthropic API key.</li>
-            </ul>
-            <div class="actions"><button class="turn" type="button">Back</button></div>
-          </div>
+          <ul class="tags"><li>Python</li><li>Image &amp; video models</li><li>Prompt engineering</li></ul>
+          <div class="row-links"><a class="ul" href="https://github.com/superdevchi">GitHub</a></div>
         </div>
-      </div>
+      </details>
+    </div>
+  </div>
+</section>
 
+<!-- ============ WRITING ============ -->
+<section id="writing">
+  <div class="shell">
+    <div class="sec-head rise">
+      <h2>Writing<span class="dot">.</span></h2>
+      <p>Notes from the build: architecture, CI/CD and deployment, mistakes, and working with AI.</p>
+    </div>
+    <ul class="posts rise" data-posts data-limit="3" data-base="posts/"></ul>
+    <p class="more rise"><a class="btn ghost" href="blog.html">All writing →</a></p>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact">
+  <div class="shell">
+    <div class="sec-head rise">
+      <h2>Have something<br>to build<span class="dot">?</span></h2>
+      <p>Full stack or DevOps work, in Metro Vancouver or remote. Send a note and tell me what you're working on.</p>
+    </div>
+
+    <div class="contact-grid">
+      <ul class="links-list rise">
+        <li><a href="mailto:chibuikeoswaldhenrychime@gmail.com"><span class="k">Email</span><span>chibuikeoswaldhenrychime@gmail.com</span></a></li>
+        <li><a href="https://github.com/superdevchi"><span class="k">GitHub</span><span>github.com/superdevchi</span></a></li>
+        <li><a href="https://linkedin.com/in/chibuikehenrychime"><span class="k">LinkedIn</span><span>linkedin.com/in/chibuikehenrychime</span></a></li>
+        <li><a href="https://studio-cfxh.onrender.com/"><span class="k">Silistudio</span><span>studio-cfxh.onrender.com</span></a></li>
+      </ul>
+
+      <!-- Opens the visitor's email app with the message filled in. No server needed. -->
+      <form class="ask rise" id="askForm">
+        <div class="two">
+          <label>Name<input name="name" autocomplete="name" required></label>
+          <label>Your email<input name="email" type="email" autocomplete="email" required></label>
         </div>
-        <p class="stack-hint rise">Click the card for the next project (<b id="stackPos">1</b> / <b id="stackTotal">5</b>)</p>
-      </div>
+        <label>About
+          <select name="about">
+            <option>A role on your team</option>
+            <option>A project or contract</option>
+            <option>Silistudio</option>
+            <option>Something I wrote</option>
+            <option>Something else</option>
+          </select>
+        </label>
+        <label>Message<textarea name="message" required></textarea></label>
+        <button class="btn solid" type="submit">Send it →</button>
+        <p class="mono" style="margin:0">Opens your email app with this filled in.</p>
+      </form>
     </div>
   </div>
 </section>
 
 </main>
 
-<footer class="shell">
-  <span>Chibuike Henry — Vancouver, BC</span>
-  <span>HTML, CSS, JavaScript.</span>
+<footer>
+  <div class="shell mono">
+    <span>Chibuike Henry · Vancouver, BC · <span data-year></span></span>
+    <span>Now: building Silistudio and <a href="blog.html">writing about it</a>.</span>
+  </div>
 </footer>
 
+<script src="posts/posts.js"></script>
+<script src="assets/site.js"></script>
 <script>
+/* ============================================================
+   Homepage only: architecture diagram, stats count-up, contact form.
+   ============================================================ */
 (function () {
   'use strict';
-
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var coarse  = window.matchMedia('(pointer: coarse)').matches;
+  var NS = 'http://www.w3.org/2000/svg';
 
-  /* ---------- Theme toggle ---------- */
-  function isDark() { return document.documentElement.getAttribute('data-theme') === 'dark'; }
-  var themeToggle = document.getElementById('themeToggle');
-  if (themeToggle) {
-    themeToggle.setAttribute('aria-pressed', String(isDark()));
-    themeToggle.addEventListener('click', function () {
-      var next = isDark() ? 'light' : 'dark';
-      if (next === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-      else document.documentElement.removeAttribute('data-theme');
-      localStorage.setItem('theme', next);
-      themeToggle.setAttribute('aria-pressed', String(next === 'dark'));
+  /* ---------- Architecture diagram ---------- */
+  var svg = document.getElementById('archSvg');
+  var note = document.getElementById('archNote');
+  var nodes = {
+    ios:    { x: 92,  y: 92,  w: 132, h: 42, label: 'iOS app', sub: 'SwiftUI',
+              info: 'Native client in SwiftUI. Renders state and sends intent; all business logic lives on the server.' },
+    web:    { x: 92,  y: 270, w: 132, h: 42, label: 'Web app', sub: 'React + Vite',
+              info: 'React client on the same API as iOS, so every feature ships once for both.' },
+    api:    { x: 300, y: 181, w: 150, h: 50, label: 'Silistudio API', sub: 'Spring WebFlux', core: true,
+              info: 'One reactive Java backend for both apps. Non-blocking, so long AI jobs never tie up threads.' },
+    db:     { x: 505, y: 70,  w: 138, h: 42, label: 'Postgres', sub: 'Supabase · R2DBC',
+              info: 'Users, projects, credits and the media library, read and written reactively through R2DBC.' },
+    auth:   { x: 505, y: 181, w: 138, h: 42, label: 'Auth + storage', sub: 'Supabase',
+              info: 'JWT auth with email codes, and storage buckets for generated images and video.' },
+    ai:     { x: 505, y: 292, w: 138, h: 42, label: 'Inference', sub: 'fal.ai',
+              info: 'Image and video generation. Results stream back to the apps over a WebSocket instead of being polled.' },
+    pay:    { x: 300, y: 330, w: 138, h: 42, label: 'Payments', sub: 'Stripe',
+              info: 'Checkout for credits, confirmed by signed webhooks that the API verifies before granting anything.' },
+    ci:     { x: 300, y: 50,  w: 160, h: 42, label: 'CI/CD', sub: 'GitHub Actions → Render',
+              info: 'Every push is tested and built automatically. The API ships as a Docker image and the web app as a static site, and nothing reaches production if a test fails.' }
+  };
+  var edges = [
+    { a: 'ios', b: 'api', flow: 'both' },
+    { a: 'web', b: 'api', flow: 'both' },
+    { a: 'api', b: 'db',  flow: 'out' },
+    { a: 'api', b: 'auth', flow: 'out' },
+    { a: 'api', b: 'ai',  flow: 'both' },
+    { a: 'pay', b: 'api', flow: 'out' },
+    { a: 'ci',  b: 'api', flow: 'out' },
+    { a: 'ci',  b: 'web', flow: 'out' },
+    { a: 'ios', b: 'auth', dashed: true },
+    { a: 'web', b: 'auth', dashed: true }
+  ];
+
+  if (svg) {
+    var gE = svg.querySelector('#edges'), gP = svg.querySelector('#pulses'), gN = svg.querySelector('#nodes');
+    var defaultNote = note.innerHTML;
+
+    edges.forEach(function (e) {
+      e.el = document.createElementNS(NS, 'line');
+      e.el.setAttribute('class', 'edge');
+      if (e.dashed) e.el.setAttribute('stroke-dasharray', '4 5');
+      gE.appendChild(e.el);
+      if (!e.dashed && !reduced) {
+        e.dots = [Math.random(), Math.random() + 0.5].map(function (t) {
+          var c = document.createElementNS(NS, 'circle');
+          c.setAttribute('r', '2.6'); c.setAttribute('class', 'pulse');
+          gP.appendChild(c);
+          return { el: c, t: t % 1, back: e.flow === 'both' && t > 0.5 };
+        });
+      }
     });
-  }
 
-  /* ---------- Photo: show it only if it actually loads ---------- */
-  var me = document.getElementById('me');
-  var portrait = document.getElementById('portrait');
-  if (me && portrait) {
-    if (me.complete && me.naturalWidth > 0) portrait.classList.add('has-photo');
-    me.addEventListener('load', function () { portrait.classList.add('has-photo'); });
-    me.addEventListener('error', function () { portrait.classList.remove('has-photo'); });
-  }
+    Object.keys(nodes).forEach(function (k) {
+      var n = nodes[k];
+      var g = document.createElementNS(NS, 'g');
+      g.setAttribute('class', 'node' + (n.core ? ' core' : ''));
+      g.setAttribute('tabindex', '0');
+      g.setAttribute('role', 'button');
+      g.setAttribute('aria-label', n.label + ', ' + n.sub + '. ' + n.info);
+      var r = document.createElementNS(NS, 'rect');
+      r.setAttribute('width', n.w); r.setAttribute('height', n.h); r.setAttribute('rx', n.core ? 6 : 4);
+      r.setAttribute('x', -n.w / 2); r.setAttribute('y', -n.h / 2);
+      var t1 = document.createElementNS(NS, 'text');
+      t1.setAttribute('text-anchor', 'middle'); t1.setAttribute('y', -2); t1.textContent = n.label;
+      var t2 = document.createElementNS(NS, 'text');
+      t2.setAttribute('text-anchor', 'middle'); t2.setAttribute('y', 12); t2.setAttribute('class', 'sub'); t2.textContent = n.sub;
+      g.appendChild(r); g.appendChild(t1); g.appendChild(t2);
+      gN.appendChild(g);
+      n.el = g; n.key = k;
 
-  /* ---------- Portrait tilts in 3D under the cursor ---------- */
-  var plate = document.getElementById('plate');
-  if (plate && !coarse && !reduced) {
-    portrait.addEventListener('pointermove', function (e) {
-      var b = portrait.getBoundingClientRect();
-      var px = (e.clientX - b.left) / b.width;
-      var py = (e.clientY - b.top) / b.height;
-      plate.style.transform =
-        'rotateY(' + ((px - 0.5) * 26).toFixed(2) + 'deg) ' +
-        'rotateX(' + ((0.5 - py) * 22).toFixed(2) + 'deg)';
-    });
-    portrait.addEventListener('pointerleave', function () { plate.style.transform = ''; });
-  }
+      function show() {
+        gN.querySelectorAll('.node').forEach(function (x) { x.classList.remove('on'); });
+        g.classList.add('on');
+        edges.forEach(function (e) { e.el.classList.toggle('hot', e.a === k || e.b === k); });
+        note.innerHTML = '<b>' + n.label + ' · ' + n.sub + '</b>' + n.info;
+      }
+      function hide() {
+        g.classList.remove('on');
+        edges.forEach(function (e) { e.el.classList.remove('hot'); });
+        note.innerHTML = defaultNote;
+      }
+      g.addEventListener('pointerenter', show);
+      g.addEventListener('focus', show);
+      g.addEventListener('pointerleave', function () { if (!drag) hide(); });
+      g.addEventListener('blur', hide);
 
-  /* ---------- Scroll progress + nav ---------- */
-  var nav = document.getElementById('nav');
-  var bar = document.getElementById('progress');
-  var lastY = 0;
-  function onScroll() {
-    var y = window.scrollY;
-    var max = document.documentElement.scrollHeight - window.innerHeight;
-    bar.style.transform = 'scaleX(' + (max > 0 ? y / max : 0) + ')';
-    nav.classList.toggle('lifted', y > 24);
-    nav.classList.toggle('hide', y > 420 && y > lastY);
-    lastY = y;
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
-
-  /* ---------- Reveal + nav highlighting ---------- */
-  var risers = document.querySelectorAll('.rise');
-  if ('IntersectionObserver' in window) {
-    var revealer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('in'); revealer.unobserve(e.target); }
+      g.addEventListener('pointerdown', function (ev) {
+        show();
+        drag = { n: n, start: toSvg(ev), ox: n.x, oy: n.y };
+        g.setPointerCapture(ev.pointerId);
+        ev.preventDefault();
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-    risers.forEach(function (el, i) {
-      el.style.transitionDelay = (Math.min(i, 4) * 55) + 'ms';
-      revealer.observe(el);
-    });
-
-    var links = {};
-    document.querySelectorAll('.nav a[href^="#"]').forEach(function (a) {
-      links[a.getAttribute('href').slice(1)] = a;
-    });
-    var spy = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        var a = links[e.target.id];
-        if (a) a.setAttribute('aria-current', e.isIntersecting ? 'true' : 'false');
+      g.addEventListener('pointermove', function (ev) {
+        if (!drag || drag.n !== n) return;
+        var p = toSvg(ev);
+        n.x = clamp(drag.ox + p.x - drag.start.x, n.w / 2 + 4, 600 - n.w / 2 - 4);
+        n.y = clamp(drag.oy + p.y - drag.start.y, n.h / 2 + 4, 380 - n.h / 2 - 4);
+        place();
       });
-    }, { rootMargin: '-45% 0px -50% 0px' });
-    document.querySelectorAll('section[id], .head-mini[id]').forEach(function (s) { spy.observe(s); });
-  } else {
-    risers.forEach(function (el) { el.classList.add('in'); });
-  }
-
-  /* ---------- Project cards (click to flip for details) ---------- */
-  document.querySelectorAll('[data-tilt]').forEach(function (card) {
-    card.querySelectorAll('.turn').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        card.classList.toggle('flipped');
+      ['pointerup', 'pointercancel'].forEach(function (evt) {
+        g.addEventListener(evt, function () { drag = null; });
       });
     });
-  });
 
-  /* ---------- Project stack (click to cycle) ---------- */
-  (function () {
-    var stack = document.getElementById('projectStack');
-    if (!stack) return;
-    var order = Array.from(stack.querySelectorAll(':scope > .card'));
-    var posEl = document.getElementById('stackPos');
-    var totalEl = document.getElementById('stackTotal');
-    if (totalEl) totalEl.textContent = order.length;
-
-    function layout() {
-      order.forEach(function (card, i) {
-        card.style.setProperty('--i', i);
-        if (i === 0) card.setAttribute('data-front', '');
-        else card.removeAttribute('data-front');
-      });
-      if (posEl) posEl.textContent = Number(order[0].dataset.key) + 1;
+    var drag = null;
+    function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+    function toSvg(ev) {
+      var pt = svg.createSVGPoint(); pt.x = ev.clientX; pt.y = ev.clientY;
+      return pt.matrixTransform(svg.getScreenCTM().inverse());
     }
+    function place() {
+      Object.keys(nodes).forEach(function (k) {
+        var n = nodes[k];
+        n.el.setAttribute('transform', 'translate(' + n.x + ',' + n.y + ')');
+      });
+      edges.forEach(function (e) {
+        var a = nodes[e.a], b = nodes[e.b];
+        e.el.setAttribute('x1', a.x); e.el.setAttribute('y1', a.y);
+        e.el.setAttribute('x2', b.x); e.el.setAttribute('y2', b.y);
+      });
+    }
+    place();
 
-    stack.addEventListener('click', function (e) {
-      if (e.target.closest('a, button')) return;
-      var card = e.target.closest('.card');
-      if (!card || card !== order[0]) return;
-      order.push(order.shift());
-      layout();
+    if (!reduced) {
+      var last = performance.now();
+      (function tick(now) {
+        var dt = Math.min(0.05, (now - last) / 1000); last = now;
+        edges.forEach(function (e) {
+          if (!e.dots) return;
+          var a = nodes[e.a], b = nodes[e.b];
+          e.dots.forEach(function (d) {
+            d.t += dt * 0.32; if (d.t > 1) d.t -= 1;
+            var t = d.back ? 1 - d.t : d.t;
+            d.el.setAttribute('cx', a.x + (b.x - a.x) * t);
+            d.el.setAttribute('cy', a.y + (b.y - a.y) * t);
+          });
+        });
+        requestAnimationFrame(tick);
+      })(last);
+    }
+  }
+
+  /* ---------- Stats count-up ---------- */
+  var nums = document.querySelectorAll('.stats .num[data-count]');
+  if (!reduced && 'IntersectionObserver' in window) {
+    var counted = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        counted.unobserve(e.target);
+        var el = e.target, end = +el.dataset.count, suf = el.dataset.suffix || '', t0 = null;
+        (function step(ts) {
+          if (!t0) t0 = ts;
+          var p = Math.min(1, (ts - t0) / 1100), eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(end * eased) + suf;
+          if (p < 1) requestAnimationFrame(step);
+        })(performance.now());
+      });
+    }, { threshold: 0.6 });
+    nums.forEach(function (n) { counted.observe(n); });
+  }
+
+  /* ---------- Contact form → visitor's email app ---------- */
+  var form = document.getElementById('askForm');
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var f = form.elements;
+      var subject = 'Portfolio: ' + f.about.value + ' — ' + f.name.value;
+      var body = f.message.value + '\n\n— ' + f.name.value + ' (' + f.email.value + ')';
+      window.location.href = 'mailto:chibuikeoswaldhenrychime@gmail.com' +
+        '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
     });
-
-    layout();
-  })();
-
+  }
 })();
 </script>
 </body>
